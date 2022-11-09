@@ -5,7 +5,8 @@
 exports.up = function(knex) {
   return knex.schema
     .createTable("user", function (table) {
-      table.increments("id").unsigned().primary();
+      table.increments("id")
+        .primary();
       table.string("first_name", 32)
         .notNullable();
       table.string("last_name", 32)
@@ -13,7 +14,7 @@ exports.up = function(knex) {
       table
         .string("email", 32)
         .unique()
-        .notNullable();;
+        .notNullable();
       table.string("password", 32);
     })
 };

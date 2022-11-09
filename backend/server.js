@@ -1,18 +1,15 @@
 const express = require('express')
 const app = express();
-// const knex = require("./knex");
 const path = require("path");
 const knex = require('./knex');
 require("dotenv").config({ path: "../.env.local" });
 app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 const PORT = process.env.PORT || 8080;
 
-// app.use(express.static(path.resolve(__dirname, "../frontend/build")));
-
-app.get('/', (req, res) => {
-  res.send('Hello World');
-})
-app.get("/api", async (req, res) => {
+// app.get('/', (req, res) => {
+//   res.send('Hello World');
+// })
+app.get("/testconnection", async (req, res) => {
   const userInfo = await knex
     .select({
       firstName:"first_name"
@@ -21,6 +18,20 @@ app.get("/api", async (req, res) => {
   res.send(userInfo);
 })
 
+app.get('/user-info', (req, res) => {
+  res.send('Hello World');
+})
+
+app.post("/", async (req, res) => {
+  
+})
+app.put("/", async (req, res) => {
+
+})
+app.delete("/", async (req, res) => {
+
+})
+
 app.listen(PORT, () => {
-	console.log("App listening on port" + PORT);
+	console.log("App listening on port " + PORT);
 });

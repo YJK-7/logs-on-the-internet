@@ -1,7 +1,8 @@
 require("dotenv").config({
   path: __dirname+"/../../.env.local",
 });
-
+console.log("dr",__dirname+"./migrations")
+///Users/yoonjukim/Downloads/CC/logs-on-the-internet/backend/db/migrations
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
@@ -14,10 +15,6 @@ module.exports = {
       user:     process.env.DB_USER || "yoonjukim",
       password: process.env.DB_PASSWORD || "2wsx"
     },
-    // pool: {
-    //   min: 2,
-    //   max: 10
-    // },
     migrations: {
       directory: "./migrations"
     },
