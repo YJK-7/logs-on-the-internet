@@ -1,0 +1,16 @@
+.login{
+  margin: auto;
+  padding: 1rem;
+  border: 1px solid black;
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+}
+form{
+  margin: auto;
+  padding: 1rem;
+  border: 1px solid black;
+  /* width: 15rem; */
+  display: flex;
+  flex-direction: column;
+}
