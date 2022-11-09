@@ -1,7 +1,7 @@
 require("dotenv").config({
   path: __dirname+"/../../.env.local",
 });
-console.log("dr",__dirname+"./migrations")
+// console.log("dr",__dirname+"./migrations")
 ///Users/yoonjukim/Downloads/CC/logs-on-the-internet/backend/db/migrations
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
