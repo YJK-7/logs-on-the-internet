@@ -1,9 +1,28 @@
 /* home logo */
+.nav-wrap{
+  display: flex;
+  justify-content:space-between;
+  align-items:center;
+}
 .home-logo{
   font-family: 'Kalam', cursive;
   font-size: 5rem;
-  margin: auto;
+  margin: 1.6rem 0 0 0;
+  line-height: 4rem;
 }
 .home-logo:hover {
+  cursor: pointer;
+}
+.logout-button:hover{
+  background-color: #8abfe8;
+  transition-duration: 0.4s;
+}
+
+.logout-button{
+  font-size: 1.3rem;
+  border-radius: 4%;
+  border: 1px solid rgb(226, 226, 226);
+  height: 3rem;
+  background-color: white;
   cursor: pointer;
 }

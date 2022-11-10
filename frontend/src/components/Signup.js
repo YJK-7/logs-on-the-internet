@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import "../style/LoginSignup.css";
+
 const Signup = ({ setUserInfo, setUserName }) => {
   const [first, setFirst] = useState(undefined);
   const [last, setLast] = useState(undefined);
@@ -15,10 +17,11 @@ const Signup = ({ setUserInfo, setUserName }) => {
       return fetch("/signup", {
         method:"POST",
         headers:{
-          "first":`${first}`,
-          "last":`${last}`,
-          "email":`${email}`, 
-          "password":`${password}`}
+          "first": first,
+          "last": last,
+          "email": email, 
+          "password": password
+        }
       })
       .then((data) => data.json())
       .then((userArr) => {
@@ -34,16 +37,58 @@ const Signup = ({ setUserInfo, setUserName }) => {
 
   }
 
+  const inputs = ["first","last","email","password"];
+
+  const inputFields = (field) => {
+    let toCap = field.replace(field[0],field[0].toUpperCase())
+    const func = (e) => {
+      return (field === "first" ? (setFirst(e))
+        :field === "last" ? setLast(e)
+        :field === "email" ? setEmail(e)
+        :setPassword(e)
+      )
+    }
+
+    let f;
+
+    if (field === "first" || field === "last") {
+      toCap+=" Name";
+      f = "text";
+    } else {
+       f = field;
+    }   
+    return (
+      <>
+        <div className="input-box">
+          <label className="lable" key={field}>
+            {`${toCap}:`}
+          </label>
+          <input
+            className='input-field' 
+            type={f}
+            name={field}
+            placeholder={toCap} 
+            onChange={(e) => func(e.target.value)}
+          />
+        </div>
+      </>
+    )
+  }
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <label>
+    
+
+    
+      <form onSubmit={handleSubmit} className="login-form">
+        {inputs.map(inputFields)}
+        {/* <label>
           First Name:
           <input 
             type="text" 
             name="first" 
-            value={first}
+            // value={first}
+            placeholder="First Name"
             onChange={(e) => setFirst(e.target.value)}
           />
         </label>
@@ -53,7 +98,8 @@ const Signup = ({ setUserInfo, setUserName }) => {
           <input 
             type="text" 
             name="last" 
-            value={last}
+            // value={last}
+            placeholder="Last Name"
             onChange={(e) => setLast(e.target.value)}
           />
         </label>
@@ -62,7 +108,8 @@ const Signup = ({ setUserInfo, setUserName }) => {
           <input 
             type="text" 
             name="email" 
-            value={email}
+            // value={email}
+            placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
@@ -70,14 +117,15 @@ const Signup = ({ setUserInfo, setUserName }) => {
         <label>
           Password:
           <input 
-            type="text" 
+            type="password" 
             name="password" 
-            value={password}
+            // value={password}
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
-        </label>
+        </label> */}
 
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" className='login-signup-button'/>
       </form>
       
       <div className='hide'>

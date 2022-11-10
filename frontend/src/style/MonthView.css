@@ -7,10 +7,10 @@
 /*top nav+ day tiles*/
 .react-calendar { 
   max-width: 100%; 
-
   background: white;
   border: 1px solid red;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Kalam', cursive;
+  
   line-height: 1.125em;
 }
 .react-calendar--doubleView {
@@ -64,6 +64,7 @@
   border: solid 1px pink; /*HERE*/
   min-width: 44px;
   background: none;
+  font-size: 1.3rem;
 }
 .react-calendar__navigation button:disabled {
   background-color: #f0f0f0;
@@ -79,7 +80,13 @@
   text-transform: uppercase;
   font-weight: bold;
   font-size: 0.75em;
+  text-decoration: none;
   border: solid 1px darkmagenta; 
+}
+
+/*Week title*/
+abbr[title] {
+  text-decoration: none;
 }
 
 /*Week individual box and font*/
@@ -133,17 +140,19 @@ button.react-calendar__tile>span{
   color: white;
 }
 .study{
-  background-color: #cc889d;
-}
-.hang{
-  background-color: #f5c5a0;
-}
-.work{
   background-color: #7dae9b;
 }
-.journal{
+.leisure{
+  background-color: #8abfe8;
+}
+.work{
   background-color: #7b78b8;
 }
+/* red: #cc889d yellow: #f5c5a0 darkblue: #5c7998*/
+
+/* .journal{
+  background-color: #7b78b8;
+} */
 /*day tile individual2*/
 /* button.react-calendar__tile.react-calendar__month-view__days__day{
  
@@ -190,4 +199,8 @@ button.react-calendar__tile>span{
 
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
+}
+
+button{
+  font-family: 'Kalam', cursive;
 }

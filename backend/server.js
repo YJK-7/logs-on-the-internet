@@ -7,9 +7,6 @@ require("dotenv").config({ path: "../.env.local" });
 app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 const PORT = process.env.PORT || 8080;
 
-// app.get('/', (req, res) => {
-//   res.send('Hello World');
-// })
 app.get("/testconnection", async (req, res) => {
   const userInfo = await knex
     .select({
@@ -19,55 +16,158 @@ app.get("/testconnection", async (req, res) => {
   res.send(userInfo);
 })
 
-//assuming that localStorage.getItem(userId) is set to 
+//App.js  assuming localStorage item (userId) is set
 app.get('/user-info', async (req, res) => {
-  const id = req.get("id");
-  const userInfo = await knex("user")
-    .where({
-      id: id
-    })
-    .select()
-  res.send(userInfo);
+  try {
+    const id = req.get("id");
+    const userInfo = await knex("user")
+      .where({
+        id: id
+      })
+      .select()
+    res.status(200).send(userInfo);
+  } catch (err) {
+    res.status(404).send(err);
+  }
 })
 
+//MonthView.js
+app.get('/user-event', async (req, res) => {
+  try {
+    const id = req.get("id");
+    const userEvent = await knex("event")
+      .where({
+        user_id: id
+      })
+      .select()
+      .leftJoin("event_type", "event.event_type_id", "event_type.id")
+      console.log(userEvent)
+    res.status(200).send(userEvent);
+  } catch (err) {
+    res.status(404).send(err);
+  }
+})
+
+//Longin.js
 app.get("/login", async (req, res) => {
-  const email = req.get("email");
-  const password = req.get("password");
-  const userInfo = await knex("user")
-    .where({
-      email: email,
-      password: password
-    })
-    .select()
-  res.send(userInfo);
+  try {
+    const email = req.get("email");
+    const password = req.get("password");
+    const userInfo = await knex("user")
+      .where({
+        email: email,
+        password: password
+      })
+      .select()
+    res.status(200).send(userInfo);
+  } catch (err) {
+    res.status(404).send(err);
+  }
 })
 
+//Signup.js
 app.post("/signup", async (req, res) => {
-  const first = req.get("first");
-  const last = req.get("last");
-  const email = req.get("email");
-  const password = req.get("password");
+  try {
+    const first = req.get("first");
+    const last = req.get("last");
+    const email = req.get("email");
+    const password = req.get("password");
 
-  const newUser = [
-    {
+    const newUser = {
       first_name: first,
       last_name: last,
       email: email,
       password: password
-    }
-  ];
-  console.log(newUser)
+    };
+    console.log(newUser)
 
-  const data = await knex("user").insert(newUser).returning(["id","first_name","last_name","email","password"]);
-  // console.log("data",data)
-  res.send(data);
+    const journal = await knex("user").insert(newUser).returning(["id","first_name","last_name","email","password"]);
+    // console.log("data",data)
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(404).send(err);
+  }
 })
-app.put("/", async (req, res) => {
 
-})
-app.delete("/", async (req, res) => {
+app.get("/journal", async (req, res) => {
+  try {
+    const date = req.get("postDate");
+    const userid = req.get("userid");
+    // console.log(date)
 
+    const journalData = await knex("journal")
+      .where({
+        date: date,
+        user_id: userid
+      })
+      .select()
+    // console.log(journalData)
+    res.status(200).send(journalData);
+  } catch (err) {
+    res.status(404).send(err);
+  }
 })
+
+app.post("/journal", async (req, res) => {
+  try {
+    const date = req.get("postDate");
+    const content = req.get("content");
+    const userid = req.get("userid");
+    
+
+    const newJournal = {
+      date: date,
+      content: content,
+      user_id: userid
+    };
+    const data = await knex("journal").insert(newJournal).returning(["content"]);
+    // console.log(data)
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(404).send(err);
+  }
+})
+app.put("/journal", async (req, res) => {
+  try {
+    const date = req.get("postDate");
+    const content = req.get("content");
+    const userid = req.get("userid");
+
+    const data = await knex("journal")
+    .where({
+      date: date,
+      user_id: userid
+    })
+    .update({
+      content:content
+    },["content"]);
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(404).send(err);
+  }
+})
+
+app.put("/event", async (req, res) => {
+  try {
+    const id = req.get("id");
+    const userid = req.get("userid");
+
+    console.log(id,userid)
+
+    const journal = await knex("user").insert(newUser).returning(["id","first_name","last_name","email","password"]);
+    // console.log("data",data)
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(404).send(err);
+  }
+})
+// app.delete("/", async (req, res) => {
+//   try {
+
+//   } catch (err) {
+//     res.status(404).send(err);
+//   }
+// })
 
 app.listen(PORT, () => {
 	console.log("App listening on port " + PORT);

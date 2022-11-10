@@ -1,0 +1,9 @@
+.input-box-event{
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction:column;
+}
+.day-content .event-content{
+  width: 5rem;
+  margin: auto;
+}
