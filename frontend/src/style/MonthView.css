@@ -214,10 +214,10 @@ button.react-calendar__tile>span{
 /* .react-calendar__tile--now {
   background: #ffff76;
 } */
-/* .react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
   background: #ff00b7;
-} */
+}
 
 /* today tile individual*/
 .react-calendar__tile--active {
@@ -226,11 +226,14 @@ button.react-calendar__tile>span{
     #cc889d 15%,
     white 15% 100%
   );
+  background-color: white;
   color: black;
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  background: #8abfe8;
+  background: #e6e6e6;
+  background-color: #e6e6e6;
+  transition-duration: 0.4s;
 }
 
 

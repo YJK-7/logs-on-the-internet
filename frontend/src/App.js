@@ -103,15 +103,7 @@ function App() {
           }/>
 
         </Routes>
-        {/* <button onClick={getUser}>
-          User
-        </button>
-        {user ? 
-        <div>
-          Name: {user.firstName} <br/>
-        </div> 
-        : 
-        <div></div> } */}
+
       </BrowserRouter>
     </div>
   );

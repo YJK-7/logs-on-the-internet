@@ -6,20 +6,10 @@ import "../style/DayEvent.css"
 
 const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent }) => {
   const [typeOpt, setTypeOpt] = useState(undefined);
-  const [content, setContent] = useState({
-    eventContent:"",
-    eventType:""
-  });
-  const [type, setType] = useState(undefined);
+  // const [type, setType] = useState(undefined);
   const [editView, setEditView] = useState(undefined);
   const [today, setToday] = useState(undefined);
-  // const [form, setForm] = useState({
-  //   eventContent:"",
-  //   eventType:""
-  // });
 
-  // const [eventSel, setEventSel] = useState(true);
-  // console.log(events)
 
   const idk = useRef(null);
 
@@ -45,15 +35,11 @@ const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent }) =
   },[])
   // console.log("💙",todayEvent)
   // console.log("💜",events)
-  //update todayEvent
-  // useEffect(() => {
 
-  // },[events])
   //load events of the day to page
   useEffect(() => {
     if(todayEvent){
       const loadEvents = todayEvent.map((eventEl) => {
-        // console.log(todayEvent)
         return (
           <span 
             className={eventEl["event_type"]} 
@@ -77,11 +63,6 @@ const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent }) =
   },[todayEvent,typeOpt])
 
 
-  // console.log(content)
-
-  //trigger this on submission of event edit
-
-
   // const deleteEvent = async (selEvent) => {
   //   const deleteE = await fetch("/event", {
   //     method:"DELETE",
@@ -94,10 +75,7 @@ const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent }) =
   //   setEvents(deleteDone)
   //   setEditView(undefined)
   // }
-  
 
-  // console.log(content)
-  // some times clicking event makes screen blank?
   
   return (
     <>

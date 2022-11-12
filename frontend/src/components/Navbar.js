@@ -19,7 +19,7 @@ const Navbar = ({ userName, setUserInfo, setUserName }) => {
   return (
     <>
     <div className='nav-wrap'> 
-      <h1 className="home-logo" >{name} Journal</h1>
+      <h1 className="home-logo">{name} Journal</h1>
       {
         userName ? 
         <button onClick={logOut} className="logout-button">

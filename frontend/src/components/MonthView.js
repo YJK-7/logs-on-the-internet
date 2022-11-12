@@ -7,8 +7,6 @@ import '../style/MonthView.css';
 const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
   const [calendarType] = useState("US"); 
   const [locale] = useState("en"); //set default lanuage to english
-  // const [dayContent, setDayContent] = useState([])
-  // const [events, setEvents] = useState(undefined);
   const dayRef = useRef(null);
 
   const dayView  = async (selectedDate) => {
@@ -18,12 +16,6 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
   }
   // console.log("💛",events)
   
-
-  // console.log(userInfo)
-  // useEffect(()=> {
-  //   if
-  // })
-
 
   const tileContent = (date) => {
     //function runs for every day seen in current month view

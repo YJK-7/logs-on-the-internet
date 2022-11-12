@@ -25,13 +25,12 @@ const EventEdit = ({eventEl, typeOpt, setEditView, setEvents}) => {
       }
     })
     const putDone = await putEvent.json();
-    //assuming that pudone returns all events in db relative to user
+    //pudone returns all events in db relative to user
     setEvents(putDone);
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(content);// why undefined?
     editEvent(content)
   }
 
@@ -47,7 +46,7 @@ const EventEdit = ({eventEl, typeOpt, setEditView, setEvents}) => {
                 className='input-field' 
                 type="text"
                 name="Event"
-                defaultValue={event_content} //can't edit content??
+                defaultValue={event_content}
                 placeholder="Event Name" 
                 onChange={e => {setContent({
                   ...content,

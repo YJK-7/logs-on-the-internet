@@ -8,11 +8,9 @@ const Login = ({ setUserName, setUserInfo }) => {
   const [password, setPassword] = useState(undefined);
   const [view, setView] = useState("login")
   const linkRef = useRef(null);
-  // console.log(view)
 
   const handleSubmit = (event) => {
     event.preventDefault();//?
-    // console.log(email,password)
     if(email && password) {
       return fetch("/login", {
         headers:{
