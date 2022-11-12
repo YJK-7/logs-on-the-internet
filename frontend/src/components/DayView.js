@@ -15,63 +15,17 @@ const DayView = ({ events, setEvents }) => {
   const date = new Date(sessionStorage.getItem("clickDay"))
 
   useEffect(()=> {
+    console.log("🧡",events,todayEvent)
     if(events && todayEvent.length === 0) {
+      setTodayEvent([]);// stopped duplicate loads, but why?
       events.forEach((eventEl) => {
         if(date.toDateString()===eventEl.date){
-          console.log(eventEl.date)
           setTodayEvent(oldArray => [...oldArray, eventEl]);
         }
       })
-    }
+    } 
+
   }, [events])
-
-  
-  // need to find way to filter events before getting here
-  // look at notes in App.js 15-20
-
-  const textLink = useRef(null);
-
-  // console.log(tooMuch)
-  const backToSub = () => {
-    setDisable(false);
-    setButton("Submit");
-  }
-  const journal = async (e) => {
-    let journalContent;
-    // e.preventDefault();
-    // console.log("🐱",posted)
-
-    if(posted) {
-      const edits = await fetch("/journal", {
-        method:"PUT",
-        headers:{
-          "postDate":date.toDateString(),
-          "content":content,
-          "userid":events[0]["user_id"]
-        }
-      })
-      // const editedCont = await edits.json();
-      journalContent = await edits.json();
-    } else {
-      // console.log("🦋",content)
-      if (content) {
-        const add = fetch("/journal", {
-          method:"POST",
-          headers:{
-            "postDate":date.toDateString(),
-            "content":content,
-            "userid":events[0]["user_id"]
-          }
-        })
-        journalContent = await add.json();
-      }
-    }
-    setPosted(journalContent[0]["content"]);
-    setDisable(true);
-    setButton("Edit");
-  }
-
-  // console.log(events)
 
   useEffect(() => {
     const fetchJour = async () => {
@@ -80,7 +34,7 @@ const DayView = ({ events, setEvents }) => {
             method:"GET",
             headers:{
               "postDate":date.toDateString(),
-              "userid":events[0]["user_id"]
+              "userid":localStorage.getItem("userid")
             }
           })
           const jourArr = await jourData.json();
@@ -101,16 +55,87 @@ const DayView = ({ events, setEvents }) => {
     }
   },[posted])
 
+  // need to find way to filter events before getting here
+  // look at notes in App.js 15-20
+
+  const textLink = useRef(null);
+
+  const backToSub = () => {
+    setDisable(false);
+    setButton("Submit");
+  }
+  const journal = async (e) => {
+    let journalContent;
+    // e.preventDefault();
+    // console.log("🐱",posted)
+
+    if(posted) {
+      const edits = await fetch("/journal", {
+        method:"PUT",
+        headers:{
+          "postDate":date.toDateString(),
+          "content":content,
+          "userid":localStorage.getItem("userid")
+        }
+      })
+      // const editedCont = await edits.json();
+      journalContent = await edits.json();
+    } else {
+      // console.log("🦋",content)
+      if (content) {
+        const add = fetch("/journal", {
+          method:"POST",
+          headers:{
+            "postDate":date.toDateString(),
+            "content":content,
+            "userid":localStorage.getItem("userid")
+          }
+        })
+        journalContent = await add.json();
+      }
+    }
+    setPosted(journalContent[0]["content"]);
+    setDisable(true);
+    setButton("Edit");
+  }
+  const addEvent = async () => {
+    const newEvent = await fetch("/event", {
+      method:"POST",
+      headers:{
+        "date":date.toDateString(),
+        // "eventContent":idk,
+        "userid":localStorage.getItem("userid"),
+        // "eventTypeId":idk
+      }
+    })
+    const addedEvent = await newEvent.json();
+    //assuming that added event returned new event
+    // setEvents(e => [...e, addedEvent])
+
+    //assuming that added event returned updated db
+    setEvents(addedEvent)
+  }
+
+  // console.log("🍎",todayEvent)
+
+
+
   return (
     <>
     <div className='top-day'>
-      <div className='back-to-month'>
-          <Link to="/month">{date.toLocaleString('default', { month: 'long' })}</Link>
+      <div className='temp'>
+          <Link to="/month" className='add'>{date.toLocaleString('default', { month: 'long' })}</Link>
       </div>
+      {
+        (todayEvent && todayEvent.length<3) ? 
+        <button className='my-button sub-ed add'>Add Event +</button>
+        :<div></div>
+      }
     </div>
 
       <DayEvent 
         clickDate={date} 
+        events={events}
         setEvents={setEvents} 
         todayEvent={todayEvent} 
         setTodayEvent={setTodayEvent}
@@ -130,10 +155,10 @@ const DayView = ({ events, setEvents }) => {
         </h2>
         <span className='deco-circle right'></span>
       </div>
+
         <div className='day-content'>
           <form className='journal-form'>
-              <textarea
-                className='journal-field' 
+              <textarea className='journal-field' 
                 type={"text"}
                 name="Journal"
                 placeholder="Type Here!"
@@ -145,8 +170,8 @@ const DayView = ({ events, setEvents }) => {
               </textarea>
               {
                 button === "Submit"? 
-                <input type="submit" value={button} className='login-signup-button day' onClick={journal}/>
-                :<button className='login-signup-button day' onClick={backToSub}>{button}</button>
+                <input type="submit" value={button} className='my-button sub-ed' onClick={journal}/>
+                :<button className='my-button sub-ed' onClick={backToSub}>{button}</button>
               }
               
           </form>

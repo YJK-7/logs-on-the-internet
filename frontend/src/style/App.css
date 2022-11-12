@@ -2,8 +2,19 @@
   font-family: 'Kalam', cursive;
 } */
 body{
+  font-family: 'Kalam', cursive;
   background-size: 30px 30px;
   background-image:
     linear-gradient(to right, #e6e6e6 1px, transparent 1px),
     linear-gradient(to bottom, #e6e6e6 1px, transparent 1px);
+}
+button{
+  font-family: 'Kalam', cursive;
+}
+
+/* Hide link in Month, */
+.hide a{ 
+  visibility: hidden;
+  display: none;
+  text-decoration: none;
 }

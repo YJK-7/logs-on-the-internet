@@ -74,15 +74,15 @@ const Login = ({ setUserName, setUserInfo }) => {
       (<>
       <form onSubmit={handleSubmit} className="login-form">
         {inputs.map(inputFields)}
-        <input type="submit" value="Submit" className='login-signup-button'/>
+        <input type="submit" value="Submit" className='my-button'/>
       </form>
-      <button onClick={()=>setView("signup")} className="login-signup-button"> 
+      <button onClick={()=>setView("signup")} className="my-button"> 
         Sign Up
       </button>
       </>)
       :(<>
       <Signup setUserInfo={setUserInfo} setUserName={setUserName} />
-      <button onClick={()=>setView("login")} className="login-signup-button"> 
+      <button onClick={()=>setView("login")} className="my-button"> 
         Log in
       </button>
       </>)

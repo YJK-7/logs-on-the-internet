@@ -7,6 +7,7 @@ import '../style/MonthView.css';
 const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
   const [calendarType] = useState("US"); 
   const [locale] = useState("en"); //set default lanuage to english
+  // const [dayContent, setDayContent] = useState([])
   // const [events, setEvents] = useState(undefined);
   const dayRef = useRef(null);
 
@@ -15,7 +16,13 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
     sessionStorage.setItem("clickDay",selectedDate);
     dayRef.current.click();
   }
+  // console.log("💛",events)
+  
+
   // console.log(userInfo)
+  // useEffect(()=> {
+  //   if
+  // })
 
 
   const tileContent = (date) => {
@@ -27,19 +34,21 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
     //   view: 'month'
     // }
     // activeStartDate & date are date objects
-
+    // console.log("rerender?💿")
     const dayOfMonth = date.date;
     let dayContent = [];
 
     if(events) {
       events.forEach((event) => {
         if(dayOfMonth.toDateString() === event.date) {
+          // console.log("🌟",events)
+          // console.log("💖",event["event_type"])
           //Do I need event_type_id?
           // console.log(dayOfMonth.getDate())
           dayContent.push(
             <span 
               className={event["event_type"]} 
-              key={`${dayOfMonth.getDate()}_${event.id}`}
+              key={event.id}
             >
               {event["event_content"]}
             </span>

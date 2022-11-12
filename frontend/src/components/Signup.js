@@ -125,7 +125,7 @@ const Signup = ({ setUserInfo, setUserName }) => {
           />
         </label> */}
 
-        <input type="submit" value="Submit" className='login-signup-button'/>
+        <input type="submit" value="Submit" className='my-button'/>
       </form>
       
       <div className='hide'>

@@ -24,7 +24,7 @@ function App() {
   // date.getMonth()+1: 11
   // date.getFullYear(): 2022
   
-  
+  // console.log("💚",events)
   
   useEffect(() => {
     if (localStorage.getItem("userid")) {
@@ -61,6 +61,11 @@ function App() {
 
   },[userInfo])
 
+  // useEffect(() => {
+
+  // },[events])
+
+
 
   
   // console.log("userName",userName, Boolean (userName))
@@ -96,6 +101,7 @@ function App() {
               setEvents={setEvents}
             />
           }/>
+
         </Routes>
         {/* <button onClick={getUser}>
           User
