@@ -80,9 +80,9 @@ app.post("/signup", async (req, res) => {
     };
     console.log(newUser)
 
-    const journal = await knex("user").insert(newUser).returning(["id","first_name","last_name","email","password"]);
-    // console.log("data",data)
-    res.status(200).send(data);
+    const newUse = await knex("user").insert(newUser).returning(["id","first_name","last_name","email","password"]);
+    console.log("data",newUse)
+    res.status(200).send(newUse);
   } catch (err) {
     res.status(404).send(err);
   }
@@ -190,13 +190,14 @@ app.put("/event", async (req, res) => {
 
 app.post("/event", async (req, res) => {
   try {
-    const date = req.get("date");
+    const clickDate = req.get("clickDate");
     const eventContent = req.get("eventContent");
     const userid = req.get("userid");
     const eventTypeId = req.get("eventTypeId");
+    // console.log(clickDate)
 
     const newEvent = {
-      date:date,
+      date:clickDate,
       event_content:eventContent,
       user_id:userid,
       event_type_id:eventTypeId
@@ -205,12 +206,23 @@ app.post("/event", async (req, res) => {
     const event = await knex("event")
       .insert(newEvent)
       .returning(["id","date","event_content","user_id","event_type_id"]);
+    const updatedEvents = await knex("event")
+    .select("event.*","event_type.event_type")
+    .leftJoin("event_type", "event.event_type_id", "event_type.id")
+    .where({
+      user_id: userid
+    })
+    const both = {
+      "event":event,
+      "updateAll":updatedEvents
+    }
+    console.log(updatedEvents)
       //does this only return new thing??
       //or do I need 
     // const allevents = await knex("event").select();
 
     // console.log("data",data)
-    res.status(200).send(event);
+    res.status(200).send(both);
   } catch (err) {
     res.status(404).send(err);
   }
@@ -218,9 +230,19 @@ app.post("/event", async (req, res) => {
 app.delete("/event", async (req, res) => {
   try {
     const id = req.get("id");
+    const userid = req.get("userid");
+
     const deleteDone = await knex("event")
       .where("id",id)
       .del()
+
+    const updatedEvents = await knex("event")
+    .select("event.*","event_type.event_type")
+    .leftJoin("event_type", "event.event_type_id", "event_type.id")
+    .where({
+      user_id: userid
+    })
+    res.status(200).send(updatedEvents);
 
 
   } catch (err) {

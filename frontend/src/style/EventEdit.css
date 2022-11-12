@@ -1,0 +1,9 @@
+.day-content.event-content{
+  display: flex;
+  flex-direction: column;
+  /* padding: 1rem; */
+}
+.day-content.edit{
+  display: flex;
+  flex-direction: column;
+}

@@ -10,7 +10,7 @@
   max-width: 100%; 
   /* background: white; */
   /* border: 1px solid red; */
-  font-family: 'Kalam', cursive;
+  /* font-family: 'Kalam', cursive; */
   
   line-height: 1.125em;
 }
@@ -216,7 +216,8 @@ button.react-calendar__tile>span{
 } */
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background: #ff00b7;
+  background-color: #e6e6e6;
+  transition-duration: 0.4s;
 }
 
 /* today tile individual*/

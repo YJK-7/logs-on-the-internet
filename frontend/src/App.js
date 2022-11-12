@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import MonthView from './components/MonthView';
-import DayView from './components/DayView';
+import DayJournal from './components/DayJournal';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
       .then((userArr) => {
         if(userArr.length !== 0) {
           setUserInfo(userArr[0]);
-          setUserName(userArr[0]["first_name"]);
+          setUserName(userArr[0]["first_name"].charAt(0).toUpperCase() + userArr[0]["first_name"].slice(1));
         }
       })
     }
@@ -96,7 +96,7 @@ function App() {
           }/>
 
           <Route path="/day/:day" element={
-            <DayView 
+            <DayJournal 
               events={events} 
               setEvents={setEvents}
             />

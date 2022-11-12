@@ -6,6 +6,7 @@
   /* display: block; */
   display: flex;
   flex-direction:column;
+  background: white;
 
 }
 .login-form{
@@ -38,13 +39,12 @@
   cursor: pointer;
 } */
 .my-button:hover{
-  border-radius: 4%;
+  border-radius: 4px;
   background-color: #8abfe8;
   transition-duration: 0.4s;
 }
 
 .my-button{
-  font-family: 'Kalam', cursive;
   font-size: 1.5em;
   height: 3rem;
   border: none;

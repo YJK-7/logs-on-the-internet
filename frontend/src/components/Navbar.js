@@ -27,6 +27,7 @@ const Navbar = ({ userName, setUserInfo, setUserName }) => {
         </button>
         : ""
       }
+
     </div>
     <div className='hide'>
         <Link to={"/"} ref={login}>Hide</Link>

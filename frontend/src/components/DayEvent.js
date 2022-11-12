@@ -4,8 +4,7 @@ import EventEdit from "./EventEditForm";
 
 import "../style/DayEvent.css"
 
-const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent }) => {
-  const [typeOpt, setTypeOpt] = useState(undefined);
+const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent, typeOpt, addMode, setAddMode }) => {
   // const [type, setType] = useState(undefined);
   const [editView, setEditView] = useState(undefined);
   const [today, setToday] = useState(undefined);
@@ -13,28 +12,23 @@ const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent }) =
 
   const idk = useRef(null);
 
+  // console.log("🌠",events)
   useEffect(()=>{
-    const loadEventType = async () => {
-      const fetchType = await fetch("/event", {
-        method:"GET",
-      })
-      const eventTypes = await fetchType.json();
-      setTypeOpt(eventTypes);
-      setTypeOpt((typeArr)=> {
-        setTypeOpt(typeArr.map((typeEl) => {
-          return (
-            <>
-              <option value={typeEl["id"]} key={typeEl["id"]}>{typeEl["event_type"]}</option>
-            </>
-          )
-        }))
-      })
+    if(addMode){
+      setEditView(<EventEdit 
+        clickDate={clickDate}
+        typeOpt={typeOpt} 
+        setEditView={setEditView}
+        setEvents={setEvents}
+        addMode={addMode}
+        setAddMode={setAddMode}
+      />)
+    } else {
+      setEditView(undefined)
     }
-    loadEventType()
-    .catch(console.error);
-  },[])
-  // console.log("💙",todayEvent)
-  // console.log("💜",events)
+  },[addMode])
+  // console.log("💜",typeOpt)
+
 
   //load events of the day to page
   useEffect(() => {
@@ -51,6 +45,8 @@ const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent }) =
                   typeOpt={typeOpt} 
                   setEditView={setEditView}
                   setEvents={setEvents}
+                  addMode={addMode}
+                  setAddMode={setAddMode}
                 />)
               }
             }}
@@ -63,18 +59,7 @@ const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent }) =
   },[todayEvent,typeOpt])
 
 
-  // const deleteEvent = async (selEvent) => {
-  //   const deleteE = await fetch("/event", {
-  //     method:"DELETE",
-  //     headers:{
-  //       "id":selEvent["id"]
-  //     }
-  //   })
-  //   const deleteDone = await deleteE.json();
-  //   //assuming deleteDone returns updated db
-  //   setEvents(deleteDone)
-  //   setEditView(undefined)
-  // }
+
 
   
   return (

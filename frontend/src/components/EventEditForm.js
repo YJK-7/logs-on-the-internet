@@ -1,14 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {jsx as _jsx} from 'react/jsx-runtime'; 
+import "../style/EventEdit.css"
 
-const EventEdit = ({eventEl, typeOpt, setEditView, setEvents}) => {
+const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode, setAddMode}) => {
   const [content, setContent] = useState({
     eventContent:"",
     eventTypeId:""
   });
-  const event_id = eventEl["id"];
-  const event_content = eventEl["event_content"];
-  const event_type_id = eventEl["event_type_id"];
+  // console.log(eventEl, typeOpt, addMode)
+ 
+  const event_id = eventEl ? eventEl["id"]: "";
+  const event_content = eventEl ? eventEl["event_content"]: "";
+  const event_type_id = eventEl ? eventEl["event_type_id"]: "";
+
+  const addEvent = async (cont) => {
+    const newCont = cont["eventContent"];
+    const newTypeId = cont["eventTypeId"]? cont["eventTypeId"]: "1";
+    if(newCont && newTypeId) {
+      console.log(newTypeId)
+      const postEvent = await fetch("/event", {
+        method:"POST",
+        headers:{
+          "clickDate":clickDate,
+          "eventContent":newCont,
+          "userid":localStorage.getItem("userid"),
+          "eventTypeId":newTypeId
+        }
+      })
+      const postDone = await postEvent.json();
+      console.log(postDone)
+      // //pudone returns all events in db relative to user
+      setEvents(postDone["updateAll"]);
+      setEditView(undefined); 
+      setAddMode(false);
+    } else {
+      alert("Please enter all fields")
+    }
+  }
   
 
   const editEvent = async (cont) => {
@@ -27,17 +55,37 @@ const EventEdit = ({eventEl, typeOpt, setEditView, setEvents}) => {
     const putDone = await putEvent.json();
     //pudone returns all events in db relative to user
     setEvents(putDone);
+    setEditView(undefined); 
+    setAddMode(false);
+  }
+
+    const deleteEvent = async (cont) => {
+    const deleteE = await fetch("/event", {
+      method:"DELETE",
+      headers:{
+        "id":event_id,
+        "userid":localStorage.getItem("userid")
+      }
+    })
+    const deleteDone = await deleteE.json();
+    //assuming deleteDone returns updated db
+    setEvents(deleteDone);
+    setEditView(undefined);
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    editEvent(content)
+    if(addMode){
+      addEvent(content)
+    } else {
+      editEvent(content)
+    }
   }
 
   return (
     <>
     <div className="day-content event-content">
-      <form className="day-content" >
+      <form className="day-content edit" >
           <div className="input-box-event">
               <label className="lable">
                 Event:
@@ -59,7 +107,7 @@ const EventEdit = ({eventEl, typeOpt, setEditView, setEvents}) => {
                 Event Type:
               </label>
               <select 
-                defaultValue={eventEl["id"]} 
+                defaultValue={event_id} 
                 onChange={e => {setContent({
                   ...content,
                   eventTypeId: e.target.value
@@ -71,8 +119,8 @@ const EventEdit = ({eventEl, typeOpt, setEditView, setEvents}) => {
           </div>
         <input type="submit" value="Submit" className='my-button day' onClick={handleSubmit}/>
       </form>
-      <button onClick={()=>setEditView(undefined)}>Close</button>
-      {/* <button onClick={deleteEvent}>Delete</button> */}
+      <button onClick={()=>{setEditView(undefined); setAddMode(false)}}>Close</button>
+      <button onClick={deleteEvent}>Delete</button>
     </div>
     </>
   )
