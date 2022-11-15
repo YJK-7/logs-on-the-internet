@@ -147,6 +147,7 @@ abbr[title] {
 
 /*neighboringMonth day tile individual box*/
 .react-calendar__month-view__days__day--neighboringMonth {
+  
   color: #b0b0b0;
 }
 .react-calendar__year-view .react-calendar__tile,
@@ -222,6 +223,7 @@ button.react-calendar__tile>span{
 
 /* today tile individual*/
 .react-calendar__tile--active {
+  
   background: linear-gradient(
     to bottom,
     #cc889d 15%,
@@ -229,6 +231,12 @@ button.react-calendar__tile>span{
   );
   background-color: white;
   color: black;
+}
+.react-calendar__tile--active>abbr {
+  /* width: ; */
+  /* border-radius: 50%;
+  background-color: white; */
+  
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {

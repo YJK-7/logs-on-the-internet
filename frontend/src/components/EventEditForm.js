@@ -59,7 +59,7 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
     setAddMode(false);
   }
 
-    const deleteEvent = async (cont) => {
+    const deleteEvent = async () => {
     const deleteE = await fetch("/event", {
       method:"DELETE",
       headers:{
@@ -107,6 +107,7 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
                 Event Type:
               </label>
               <select 
+                className='input-field select'
                 defaultValue={event_id} 
                 onChange={e => {setContent({
                   ...content,
@@ -119,8 +120,10 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
           </div>
         <input type="submit" value="Submit" className='my-button day' onClick={handleSubmit}/>
       </form>
-      <button onClick={()=>{setEditView(undefined); setAddMode(false)}}>Close</button>
-      <button onClick={deleteEvent}>Delete</button>
+      <div className='edit button'>
+        <button className="my-button day ed" onClick={()=>{setEditView(undefined); setAddMode(false)}}>Close</button>
+        <button className="my-button day ed" onClick={deleteEvent}>Delete</button>
+      </div>
     </div>
     </>
   )

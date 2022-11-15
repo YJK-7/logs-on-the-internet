@@ -14,7 +14,7 @@
   cursor: pointer;
 }
 .logout-button:hover{
-  background-color: #8abfe8;
+  background-color: #e6e6e6;
   transition-duration: 0.4s;
 }
 

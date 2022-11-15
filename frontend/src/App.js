@@ -61,12 +61,6 @@ function App() {
 
   },[userInfo])
 
-  // useEffect(() => {
-
-  // },[events])
-
-
-
   
   // console.log("userName",userName, Boolean (userName))
   // console.log("userInfo",userInfo, Boolean (userInfo))

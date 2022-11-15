@@ -1,12 +1,33 @@
 /* .App {
   font-family: 'Kalam', cursive;
 } */
+/* no function just to keep track of colors */
+.p1{
+  background-color: #7dae9b;
+}
+.p2{
+  background-color: #8abfe8;
+}
+.p3{
+  background-color: #7b78b8;
+}
+.p4{
+  background-color: #cc889d;
+}
+.p5{
+  background-color: #f5c5a0;
+}
+.p6{
+  background-color: #5c7998;
+}
+
 body{
   font-family: 'Kalam', cursive;
   background-size: 30px 30px;
   background-image:
     linear-gradient(to right, #e6e6e6 1px, transparent 1px),
     linear-gradient(to bottom, #e6e6e6 1px, transparent 1px);
+  margin-bottom: 2.5rem;
 }
 input,button{
   font-family: 'Kalam', cursive;

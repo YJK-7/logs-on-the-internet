@@ -1,9 +1,57 @@
 .day-content.event-content{
   display: flex;
   flex-direction: column;
+  border: 1px solid black;
+  margin: 1rem 0 1rem;
+  margin-bottom: 1rem;
+  background-color: white;
   /* padding: 1rem; */
 }
 .day-content.edit{
   display: flex;
   flex-direction: column;
+}
+.input-field.select{
+  font-family: 'Kalam', cursive;
+}
+
+.my-button.day{
+  height: 2.7rem;
+    border: 2px solid #8abfe8;
+    border-radius: 4px;
+    background-color: white;
+  /* border: 1px solid black; */
+}
+.my-button.day:hover{
+  border-radius: 4px;
+  background-color: #8abfe8;
+  transition-duration: 0.4s;
+}
+
+.my-button.day.ed{
+  flex: 1;
+  border: 2px solid #7dae9b;
+  /* border: 1px solid black; */
+}
+.my-button.day.ed:hover{
+  flex: 1;
+  background-color: #7dae9b;
+  color: white;
+}
+
+
+
+
+.edit.button{
+  /* margin-bottom: 0; */
+  /* width: 100%; */
+  /* align-items: stretch; */
+  gap: 25px;
+  align-content:stretch;
+  width: none;
+  min-height: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0rem 1rem;
 }
