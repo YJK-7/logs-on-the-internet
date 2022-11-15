@@ -51,7 +51,7 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
     return dayContent;
   }
 
-
+  console.log(date)
   return (
     <>
       <Calendar
@@ -67,10 +67,10 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
       <div className='hide'>
         <Link to={`/day/${date.getDate()}`} ref={dayRef}>Hide</Link>
       </div>
-      {' '}
+      {/* {' '}
       <div></div>{' '}
       <div></div>{' '}
-      <div></div>
+      <div></div> */}
     </>
   )
 }

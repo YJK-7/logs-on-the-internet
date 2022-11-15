@@ -3,19 +3,12 @@ const express = require('express')
 const app = express();
 const path = require("path");
 const knex = require('./knex');
+// const fileUpload = require('express-fileupload');
 require("dotenv").config({ path: "../.env.local" });
 
+// app.use(fileUpload());
 app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 const PORT = process.env.PORT || 8080;
-
-app.get("/testconnection", async (req, res) => {
-  const userInfo = await knex
-    .select({
-      firstName:"first_name"
-    })
-    .from("user");
-  res.send(userInfo);
-})
 
 //App.js  assuming localStorage item (userId) is set
 app.get('/user-info', async (req, res) => {
@@ -250,6 +243,31 @@ app.delete("/event", async (req, res) => {
     res.status(404).send(err);
   }
 })
+app.post("/api/img", async (req, res) => {
+  try {
+    const date = req.get("postDate");
+    const content = req.get("content");
+    const userid = req.get("userid");
+    
+
+    const newJournal = {
+      date: date,
+      content: content,
+      user_id: userid
+    };
+    const data = await knex("journal").insert(newJournal).returning(["content"]);
+    // console.log(data)
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(404).send(err);
+  }
+})
+
+//order matters?
+app.get("/*", (req, res) => {
+  console.log("💜")
+  res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"));
+});
 
 app.listen(PORT, () => {
 	console.log("App listening on port " + PORT);

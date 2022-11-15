@@ -12,7 +12,7 @@ const DayEvent = ({ clickDate, events, setEvents, todayEvent, setTodayEvent, typ
 
   const idk = useRef(null);
 
-  // console.log("🌠",events)
+  // console.log("🌠",addMode)
   useEffect(()=>{
     if(addMode){
       setEditView(<EventEdit 

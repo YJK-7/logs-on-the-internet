@@ -72,6 +72,8 @@ function App() {
           userName={userName} 
           setUserInfo={setUserInfo} 
           setUserName={setUserName}
+          setDate={setDate}
+
         />
 
         <Routes>
@@ -89,7 +91,7 @@ function App() {
             />
           }/>
 
-          <Route path="/day/:day" element={
+          <Route path="/day/:day/*" element={
             <DayJournal 
               events={events} 
               setEvents={setEvents}

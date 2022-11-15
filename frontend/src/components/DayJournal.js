@@ -1,9 +1,8 @@
-// import { PostgresError } from 'postgres';
 import { useState, useEffect, useRef } from 'react';
-// import { addStyle } from 'react-bootstrap/lib/utils/bootstrapUtils';
 import { Link, useParams } from 'react-router-dom';
 import "../style/DayJournal.css"
 import DayEvent from './DayEvent';
+// import logo from "../logo.svg"
 // import DayAddEvent from './DayAddEvent';
 
 const DayJournal = ({ events, setEvents }) => {
@@ -17,6 +16,8 @@ const DayJournal = ({ events, setEvents }) => {
   const { day } = useParams();
   const date = new Date(sessionStorage.getItem("clickDay"))
   const textLink = useRef(null);
+  const imgUp = useRef(null);
+  const imgUpField = useRef(null);
   // const addLink = useRef(null);
   // console.log(addMode)
 
@@ -128,26 +129,31 @@ const DayJournal = ({ events, setEvents }) => {
     setButton("Edit");
   }
 
-  // const addEvent = async () => {
-  //   const newEvent = await fetch("/event", {
-  //     method:"POST",
-  //     headers:{
-  //       "date":date.toDateString(),
-  //       // "eventContent":idk,
-  //       "userid":localStorage.getItem("userid"),
-  //       // "eventTypeId":idk
-  //     }
-  //   })
-  //   const addedEvent = await newEvent.json();
-  //   //assuming that added event returned new event
-  //   // setEvents(e => [...e, addedEvent])
-
-  //   //assuming that added event returned updated db
-  //   setEvents(addedEvent)
-  // }
-
   // console.log("🍎",todayEvent)
-
+  const handleImageUpload = e => {
+    const [file] = e.target.files;
+    if (file) {
+      const read = new FileReader();
+      const { current } = imgUp; //access imgUp.current
+      current.file = file;
+      // console.log(current)
+      read.onload = e => {
+        current.src = e.target.result;
+      };
+      read.readAsDataURL(file);
+    }
+  };
+  const sendImg = async (e) => {
+    e.preventDefault();
+    const formData = new FormData()
+    formData.append("image",file)
+    const data = await fetch("/api/img", {
+      method:"POST",
+      headers:{
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+  }
 
 
   return (
@@ -191,7 +197,7 @@ const DayJournal = ({ events, setEvents }) => {
         <div className='day-content'>
           <form className='journal-form'>
               <textarea className='journal-field' 
-                type={"text"}
+                type="text"
                 name="Journal"
                 placeholder="Type Here!"
                 ref={textLink}
@@ -207,6 +213,22 @@ const DayJournal = ({ events, setEvents }) => {
               }
               
           </form>
+          <div className='imageUpload'>
+            <input 
+              type="file" 
+              accept="image/*" 
+              ref={imgUpField}
+              onChange={handleImageUpload}
+              // multiple = {false} 
+              style={{
+                display: "none"
+              }}
+            />
+            <form action='/'>
+              <button className='imgUp' onClick={()=>imgUpField.current.click()}>Upload Image</button>
+              <img ref={imgUp} className="image"/>
+            </form>
+          </div>
         </div>
     </div>
     

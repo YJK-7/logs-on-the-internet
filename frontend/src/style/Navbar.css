@@ -13,12 +13,16 @@
 .home-logo:hover {
   cursor: pointer;
 }
-.logout-button:hover{
+.nav-buttons{
+  display: flex;
+  gap:1rem;
+}
+.logout:hover{
   background-color: #e6e6e6;
   transition-duration: 0.4s;
 }
 
-.logout-button{
+.logout{
   font-size: 1.3rem;
   border-radius: 4%;
   border: 2px solid black;

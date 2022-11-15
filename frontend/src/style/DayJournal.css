@@ -130,6 +130,7 @@
   padding: 1rem 1rem;
   font-size: 18px;
   letter-spacing: -0.025em;
+  gap:1rem;
   /* margin-bottom: 1rem; */
   display: flex;
 }
@@ -163,7 +164,26 @@ textarea:disabled{
   border-radius: 4px;
   text-align: center;
 }
-/* p{
-  margin:0;
-  text-align: center;
-} */
+.imageUpload{
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  align-content:stretch;
+  /* width: 100%; */
+}
+.imgUp{
+  width: 100%;
+  border: 2px solid #8abfe8;
+  border-radius: 4px;
+  background-color: white;
+}
+.imgUp:hover{
+  background-color: #8abfe8;
+  transition-duration: 0.4s;
+}
+.image{
+  width: 9rem;
+  height: 100%;
+  border:none;
+  margin-top: 1rem;
+}
