@@ -143,17 +143,17 @@ const DayJournal = ({ events, setEvents }) => {
       read.readAsDataURL(file);
     }
   };
-  const sendImg = async (e) => {
-    e.preventDefault();
-    const formData = new FormData()
-    formData.append("image",file)
-    const data = await fetch("/api/img", {
-      method:"POST",
-      headers:{
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-  }
+  // const sendImg = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData()
+  //   formData.append("image",file)
+  //   const data = await fetch("/api/img", {
+  //     method:"POST",
+  //     headers:{
+  //       'Content-Type': 'multipart/form-data'
+  //     }
+  //   })
+  // }
 
 
   return (
