@@ -11,6 +11,7 @@ function App() {
   const [userName, setUserName] = useState(undefined);
   const [date, setDate] = useState(new Date());
   const [events, setEvents] = useState(undefined);
+  
 
   // need to figure out how to date when adding events
   // then figure out a way to store events by month
