@@ -161,7 +161,7 @@ app.put("/event", async (req, res) => {
     const eventContent = req.get("eventContent");
     const eventTypeId = req.get("eventTypeId");
 
-    console.log(id,eventContent,eventTypeId, userid)
+    // console.log(id,eventContent,eventTypeId, userid)
 
     const editEvent = await knex("event")
       .where({
@@ -191,7 +191,7 @@ app.post("/event", async (req, res) => {
     const eventContent = req.get("eventContent");
     const userid = req.get("userid");
     const eventTypeId = req.get("eventTypeId");
-    // console.log(clickDate)
+    // console.log(eventContent)
 
     const newEvent = {
       date:clickDate,
@@ -213,7 +213,7 @@ app.post("/event", async (req, res) => {
       "event":event,
       "updateAll":updatedEvents
     }
-    console.log(updatedEvents)
+    // console.log(updatedEvents)
       //does this only return new thing??
       //or do I need 
     // const allevents = await knex("event").select();

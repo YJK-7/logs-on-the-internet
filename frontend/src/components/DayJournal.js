@@ -39,6 +39,7 @@ const DayJournal = ({ events, setEvents }) => {
         method:"GET",
       })
       const eventTypes = await fetchType.json();
+      console.log(eventTypes)
       setTypeOpt(eventTypes);
       setTypeOpt((typeArr)=> {
         setTypeOpt(typeArr.map((typeEl) => {

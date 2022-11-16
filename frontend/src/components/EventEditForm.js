@@ -12,6 +12,7 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
   const event_id = eventEl ? eventEl["id"]: "";
   const event_content = eventEl ? eventEl["event_content"]: "";
   const event_type_id = eventEl ? eventEl["event_type_id"]: "";
+  console.log(event_type_id,event_id)
 
   const addEvent = async (cont) => {
     const newCont = cont["eventContent"];
@@ -108,7 +109,7 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
               </label>
               <select 
                 className='input-field select'
-                defaultValue={event_id} 
+                defaultValue={event_type_id} 
                 onChange={e => {setContent({
                   ...content,
                   eventTypeId: e.target.value
