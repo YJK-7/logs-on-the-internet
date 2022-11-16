@@ -51,7 +51,7 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
     return dayContent;
   }
 
-  console.log(date)
+  // console.log(date)
   return (
     <>
       <Calendar
@@ -63,6 +63,7 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
         tileContent={tileContent}
         minDetail={"decade"}
       />
+      <img src='https://res.cloudinary.com/domjfpsdz/image/upload/v1668588222/logs/bvujzd5cbudiqmtqhi5a.png'></img>
 
       <div className='hide'>
         <Link to={`/day/${date.getDate()}`} ref={dayRef}>Hide</Link>

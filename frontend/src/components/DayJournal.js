@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import "../style/DayJournal.css"
 import DayEvent from './DayEvent';
+import ImageUp from './DayImage';
 // import logo from "../logo.svg"
 // import DayAddEvent from './DayAddEvent';
 
@@ -16,8 +17,6 @@ const DayJournal = ({ events, setEvents }) => {
   const { day } = useParams();
   const date = new Date(sessionStorage.getItem("clickDay"))
   const textLink = useRef(null);
-  const imgUp = useRef(null);
-  const imgUpField = useRef(null);
   // const addLink = useRef(null);
   // console.log(addMode)
 
@@ -129,31 +128,7 @@ const DayJournal = ({ events, setEvents }) => {
     setButton("Edit");
   }
 
-  // console.log("🍎",todayEvent)
-  const handleImageUpload = e => {
-    const [file] = e.target.files;
-    if (file) {
-      const read = new FileReader();
-      const { current } = imgUp; //access imgUp.current
-      current.file = file;
-      // console.log(current)
-      read.onload = e => {
-        current.src = e.target.result;
-      };
-      read.readAsDataURL(file);
-    }
-  };
-  // const sendImg = async (e) => {
-  //   e.preventDefault();
-  //   const formData = new FormData()
-  //   formData.append("image",file)
-  //   const data = await fetch("/api/img", {
-  //     method:"POST",
-  //     headers:{
-  //       'Content-Type': 'multipart/form-data'
-  //     }
-  //   })
-  // }
+  
 
 
   return (
@@ -213,21 +188,8 @@ const DayJournal = ({ events, setEvents }) => {
               }
               
           </form>
-          <div className='imageUpload'>
-            <input 
-              type="file" 
-              accept="image/*" 
-              ref={imgUpField}
-              onChange={handleImageUpload}
-              // multiple = {false} 
-              style={{
-                display: "none"
-              }}
-            />
-            <form action='/'>
-              <button className='imgUp' onClick={()=>imgUpField.current.click()}>Upload Image</button>
-              <img ref={imgUp} className="image"/>
-            </form>
+          <div>
+            <ImageUp date={date} posted={posted}/>
           </div>
         </div>
     </div>

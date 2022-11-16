@@ -1,13 +1,16 @@
-
 const express = require('express')
 const app = express();
 const path = require("path");
 const knex = require('./knex');
+const { cloudinary } = require("./utils/cloudinary");
 // const fileUpload = require('express-fileupload');
 require("dotenv").config({ path: "../.env.local" });
 
 // app.use(fileUpload());
 app.use(express.static(path.resolve(__dirname, "../frontend/build")));
+
+//limit allows bigger file inputs?
+app.use(express.json({limit:"50mb"}))
 const PORT = process.env.PORT || 8080;
 
 //App.js  assuming localStorage item (userId) is set
@@ -243,23 +246,106 @@ app.delete("/event", async (req, res) => {
     res.status(404).send(err);
   }
 })
-app.post("/api/img", async (req, res) => {
-  try {
-    const date = req.get("postDate");
-    const content = req.get("content");
-    const userid = req.get("userid");
-    
 
-    const newJournal = {
-      date: date,
-      content: content,
+//DayImage.js
+app.post("/api/img-up", async (req, res) => {
+  try {
+    const fileStr = req.body.data;
+    const day = req.get("day")
+    const userid = req.get("userid")
+
+    const uploadRes = await cloudinary.uploader.
+    upload(fileStr, {
+      upload_preset:"logs"
+    })
+    
+    const newImg = {
+      asset_id:uploadRes["asset_id"],
+      public_id:uploadRes["public_id"],
+      signature:uploadRes["signature"],
+      secure_url:uploadRes["secure_url"]
+    }
+    const uploadImg = await knex("image").insert(newImg).returning(["id","secure_url"]); 
+
+    const data = await knex("journal")
+    .where({
+      date: day,
       user_id: userid
-    };
-    const data = await knex("journal").insert(newJournal).returning(["content"]);
-    // console.log(data)
-    res.status(200).send(data);
+    })
+    .update({
+      image_id:uploadImg[0]["id"]
+    },);
+
+    res.status(200).send(uploadImg);
+
   } catch (err) {
-    res.status(404).send(err);
+    res.status(500).send(err);
+  }
+})
+
+// app.post("/api/img-del", async (req, res) => {
+//   try {
+//     const fileStr = req.body.data;
+//     const day = req.get("day")
+//     const userid = req.get("userid")
+
+//     const uploadRes = await cloudinary.uploader.
+//     upload(fileStr, {
+//       upload_preset:"logs"
+//     })
+    
+//     const newImg = {
+//       asset_id:uploadRes["asset_id"],
+//       public_id:uploadRes["public_id"],
+//       signature:uploadRes["signature"],
+//       secure_url:uploadRes["secure_url"]
+//     }
+//     const uploadImg = await knex("image").insert(newImg).returning(["id","secure_url"]); 
+
+//     const data = await knex("journal")
+//     .where({
+//       date: day,
+//       user_id: userid
+//     })
+//     .update({
+//       image_id:uploadImg[0]["id"]
+//     });
+//     // res.status(200).send(JSON.stringify(uploadImg[0]["secure_url"]));
+//     res.status(200).send(uploadImg);
+
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// })
+
+app.get("/get-img", async (req, res) => {
+  try {
+    const day = req.get("day");
+    const userid = req.get("userid")
+
+    const data = await knex("journal")
+      .where({
+        date:day,
+        user_id:userid
+      })
+      .select("image_id");
+
+    if(data.length <= 0){
+      return res.status(200).end();
+    }
+
+    const imgData = await knex("image")
+    .where({
+      id:data[0]["image_id"]
+    })
+    .select(["id","secure_url"]);
+    // console.log("💚",imgData);
+    if(imgData.length > 0) {
+      res.status(200).send(imgData);
+    }
+
+  } catch (error) {
+    res.status(404).send(error);
   }
 })
 
