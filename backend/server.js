@@ -3,10 +3,8 @@ const app = express();
 const path = require("path");
 const knex = require('./knex');
 const { cloudinary } = require("./utils/cloudinary");
-// const fileUpload = require('express-fileupload');
 require("dotenv").config({ path: "../.env.local" });
 
-// app.use(fileUpload());
 app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 
 //limit allows bigger file inputs?
@@ -75,21 +73,21 @@ app.post("/signup", async (req, res) => {
       email: email,
       password: password
     };
-    console.log(newUser)
+    // console.log(newUser)
 
     const newUse = await knex("user").insert(newUser).returning(["id","first_name","last_name","email","password"]);
-    console.log("data",newUse)
+    // console.log("data",newUse)
     res.status(200).send(newUse);
   } catch (err) {
     res.status(404).send(err);
   }
 })
 
+//DayView.js
 app.get("/journal", async (req, res) => {
   try {
     const date = req.get("postDate");
     const userid = req.get("userid");
-    // console.log(date)
 
     const journalData = await knex("journal")
       .where({
@@ -109,7 +107,6 @@ app.post("/journal", async (req, res) => {
     const date = req.get("postDate");
     const content = req.get("content");
     const userid = req.get("userid");
-    
 
     const newJournal = {
       date: date,
@@ -143,11 +140,11 @@ app.put("/journal", async (req, res) => {
   }
 })
 
+//DayEvents.js
 app.get("/event", async (req, res) => {
   try {
     const eventType = await knex("event_type")
-      .select()
-    // console.log("data",data)
+    .select()
     res.status(200).send(eventType);
   } catch (err) {
     res.status(404).send(err);
@@ -204,19 +201,16 @@ app.post("/event", async (req, res) => {
       .insert(newEvent)
       .returning(["id","date","event_content","user_id","event_type_id"]);
     const updatedEvents = await knex("event")
-    .select("event.*","event_type.event_type")
-    .leftJoin("event_type", "event.event_type_id", "event_type.id")
-    .where({
-      user_id: userid
-    })
+      .select("event.*","event_type.event_type")
+      .leftJoin("event_type", "event.event_type_id", "event_type.id")
+      .where({
+        user_id: userid
+      })
     const both = {
       "event":event,
       "updateAll":updatedEvents
     }
-    // console.log(updatedEvents)
-      //does this only return new thing??
-      //or do I need 
-    // const allevents = await knex("event").select();
+    // console.log(event) ->  only return new thing
 
     // console.log("data",data)
     res.status(200).send(both);
@@ -248,6 +242,36 @@ app.delete("/event", async (req, res) => {
 })
 
 //DayImage.js
+app.get("/get-img", async (req, res) => {
+  try {
+    const day = req.get("day");
+    const userid = req.get("userid")
+
+    const data = await knex("journal")
+      .where({
+        date:day,
+        user_id:userid
+      })
+      .select("image_id");
+    
+    if(data.length <= 0){
+      return res.status(200).send(data);
+    }
+    
+    const imgData = await knex("image")
+    .where({
+      id:data[0]["image_id"]
+    })
+    .select(["id","secure_url"]);
+    // console.log("🌟",imgData);
+
+    res.status(200).send(imgData);
+
+  } catch (error) {
+    res.status(404).send(error);
+  }
+})
+
 app.post("/api/img-up", async (req, res) => {
   try {
     const fileStr = req.body.data;
@@ -317,37 +341,6 @@ app.post("/api/img-up", async (req, res) => {
 //     res.status(500).send(err);
 //   }
 // })
-
-app.get("/get-img", async (req, res) => {
-  try {
-    const day = req.get("day");
-    const userid = req.get("userid")
-
-    const data = await knex("journal")
-      .where({
-        date:day,
-        user_id:userid
-      })
-      .select("image_id");
-
-    if(data.length <= 0){
-      return res.status(200).end();
-    }
-
-    const imgData = await knex("image")
-    .where({
-      id:data[0]["image_id"]
-    })
-    .select(["id","secure_url"]);
-    // console.log("💚",imgData);
-    if(imgData.length > 0) {
-      res.status(200).send(imgData);
-    }
-
-  } catch (error) {
-    res.status(404).send(error);
-  }
-})
 
 //order matters?
 app.get("/*", (req, res) => {

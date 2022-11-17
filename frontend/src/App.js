@@ -3,60 +3,49 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import MonthView from './components/MonthView';
-import DayJournal from './components/DayJournal';
+import DayView from './components/DayView';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
   const [userInfo, setUserInfo] = useState(undefined);
   const [userName, setUserName] = useState(undefined);
   const [date, setDate] = useState(new Date());
-  const [events, setEvents] = useState(undefined);
-  
+  const [events, setEvents] = useState([]);
 
-  // need to figure out how to date when adding events
-  // then figure out a way to store events by month
-  // then make fetchEvents only fetch events from that month
-  // using DayEvents, pass only events relevant to that day into dayview
+  const headerObj = {
+    "id":localStorage.getItem("userid")
+  };
 
-  // const [DayEvents, setDayEvents] = useState(undefined);
-
-  // console.log("today💛",date, date.getMonth()+1, date.getFullYear())
-  // date: Thu Nov 10 2022 11:54:01 GMT+0900 (Japan Standard Time) 
-  // date.getMonth()+1: 11
-  // date.getFullYear(): 2022
-  
-  // console.log("💚",events)
-  
+  const localStorageUser = localStorage.getItem("userid");
+  //check for userid 
   useEffect(() => {
-    if (localStorage.getItem("userid")) {
+    if (localStorageUser) {
       fetch("/user-info",{
-        headers:{
-          "id":localStorage.getItem("userid")
-        }
+        headers:headerObj
       })
       .then(data => data.json())
       .then((userArr) => {
         if(userArr.length !== 0) {
           setUserInfo(userArr[0]);
-          setUserName(userArr[0]["first_name"].charAt(0).toUpperCase() + userArr[0]["first_name"].slice(1));
+          const userFirstName = userArr[0]["first_name"];
+          setUserName(userFirstName.charAt(0).toUpperCase() + userFirstName.slice(1));
         }
       })
     }
   },[]);
 
+  //fetch user related events
   useEffect(() => {
     const fetchEvents = async () => {
-      if(userInfo) {
+      if(localStorageUser) {
         const eventsData = await fetch ("/user-event", {
-          headers:{
-            id: userInfo["id"]
-          }
+          headers:headerObj
         })
         const eventsArr = await eventsData.json();
         setEvents(eventsArr);
+        //setevents regardless of if events is empty or not?
       }
     }
-
     fetchEvents()
     .catch(console.error);
 
@@ -74,7 +63,6 @@ function App() {
           setUserInfo={setUserInfo} 
           setUserName={setUserName}
           setDate={setDate}
-
         />
 
         <Routes>
@@ -93,7 +81,7 @@ function App() {
           }/>
 
           <Route path="/day/:day/*" element={
-            <DayJournal 
+            <DayView
               events={events} 
               setEvents={setEvents}
             />

@@ -3,22 +3,22 @@ import {jsx as _jsx} from 'react/jsx-runtime';
 import "../style/EventEdit.css"
 
 const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode, setAddMode}) => {
+  
   const [content, setContent] = useState({
     eventContent:"",
     eventTypeId:""
   });
-  // console.log(eventEl, typeOpt, addMode)
+  console.log(eventEl, typeOpt, addMode)
  
   const event_id = eventEl ? eventEl["id"]: "";
   const event_content = eventEl ? eventEl["event_content"]: "";
   const event_type_id = eventEl ? eventEl["event_type_id"]: "";
-  console.log(event_type_id,event_id)
 
   const addEvent = async (cont) => {
     const newCont = cont["eventContent"];
     const newTypeId = cont["eventTypeId"]? cont["eventTypeId"]: "1";
     if(newCont && newTypeId) {
-      console.log(newTypeId)
+      // console.log(newTypeId)
       const postEvent = await fetch("/event", {
         method:"POST",
         headers:{
@@ -29,13 +29,12 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
         }
       })
       const postDone = await postEvent.json();
-      console.log(postDone)
-      // //pudone returns all events in db relative to user
+      // console.log(postDone returns new event and updated events)
       setEvents(postDone["updateAll"]);
       setEditView(undefined); 
       setAddMode(false);
     } else {
-      alert("Please enter all fields")
+      alert("Please enter all fields");
     }
   }
   
@@ -43,7 +42,7 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
   const editEvent = async (cont) => {
     const newCont = (cont["eventContent"] !== "")? cont["eventContent"] : event_content;
     const newTypeId = (cont["eventTypeId"] !== "")? cont["eventTypeId"] : event_type_id;
-    console.log(newCont,newTypeId,event_id)
+    // console.log(newCont,newTypeId,event_id)
     const putEvent = await fetch("/event", {
       method:"PUT",
       headers:{

@@ -1,37 +1,26 @@
 import { useState, useEffect, useRef } from 'react';
 import "../style/DayImage.css"
 
-const ImageUp = ({ date, posted }) => {
+const DayImage = ({ clickDate, posted }) => {
   const [preview, setPreView] = useState("");
   const [imgFromDB, setImgFromDB] = useState({});
-  // const [imgId, setImgId] = useState("");
   const imgUpField = useRef(null);
-  const day = date.toDateString();
-  // console.log(posted);
 
   //fetch image from db
   useEffect(() => {
-    console.log("🍎")
     const fetchImg = async () => {
-      try {
-        const getImg = await fetch("/get-img", {
-          method: "GET",
-          headers:{
-            "day":day,
-            "userid":localStorage.getItem("userid")
-          }
-        })
-        const loadImg = await getImg.json();
-        // console.log(loadImg);
-
-        if(loadImg){
-          console.log("🇰🇷",loadImg)
-          setImgFromDB(loadImg[0])
+      const getImg = await fetch("/get-img", {
+        method: "GET",
+        headers:{
+          "day": clickDate,
+          "userid":localStorage.getItem("userid")
         }
-      } catch (error) {
-        console.log("empty");
+      })
+      const loadImg = await getImg.json();
+
+      if(loadImg.length !== 0){
+        setImgFromDB(loadImg[0]);
       }
-      
     }
     fetchImg()
     .catch(console.error);
@@ -43,7 +32,7 @@ const ImageUp = ({ date, posted }) => {
       const [file] = e.target.files;
       previewFile(file);
     } else if (!posted) {
-      alert("Please post a journal first")
+      alert("Please post a journal first");
     } 
   };
 
@@ -69,7 +58,7 @@ const ImageUp = ({ date, posted }) => {
         body: JSON.stringify({data:base64}),
         headers:{
           'Content-Type': 'application/json',
-          "day":day,
+          "day":clickDate,
           "userid":localStorage.getItem("userid")
         }
       })
@@ -145,4 +134,4 @@ const ImageUp = ({ date, posted }) => {
 
 };
 
-export default ImageUp;
+export default DayImage;

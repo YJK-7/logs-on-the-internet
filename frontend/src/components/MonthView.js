@@ -10,8 +10,8 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
   const dayRef = useRef(null);
 
   const dayView  = async (selectedDate) => {
-    await setDate(selectedDate);
-    sessionStorage.setItem("clickDay",selectedDate);
+    await setDate(selectedDate); // highlihgt selcted day in month
+    sessionStorage.setItem("clickDay",selectedDate); //prevent date reset on refresh
     dayRef.current.click();
   }
   // console.log("💛",events)
@@ -57,7 +57,7 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
       <Calendar
         onClickDay={dayView}  
         onChange={setDate} 
-        value={date} //today
+        value={date} //selected day
         calendarType={calendarType} 
         locale={locale}
         tileContent={tileContent}
@@ -67,10 +67,6 @@ const MonthView = ({ events, setEvents, userInfo, date, setDate }) => {
       <div className='hide'>
         <Link to={`/day/${date.getDate()}`} ref={dayRef}>Hide</Link>
       </div>
-      {/* {' '}
-      <div></div>{' '}
-      <div></div>{' '}
-      <div></div> */}
     </>
   )
 }
