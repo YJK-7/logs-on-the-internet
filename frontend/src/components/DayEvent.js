@@ -1,18 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {jsx as _jsx} from 'react/jsx-runtime'; 
 import EventEdit from "./EventEditForm";
 
 import "../style/DayEvent.css"
 
 const DayEvent = ({ clickDate, setEvents, todayEvent, addMode, setAddMode }) => {
-  // const [type, setType] = useState(undefined);
   const [editView, setEditView] = useState(undefined);
   const [today, setToday] = useState(undefined);
   const [typeOpt, setTypeOpt] = useState(undefined);
 
-
-
-  const idk = useRef(null);
   // load type options
   useEffect(()=>{
     const loadEventType = async () => {
@@ -53,8 +49,6 @@ const DayEvent = ({ clickDate, setEvents, todayEvent, addMode, setAddMode }) => 
   },[addMode])
   
     
-
-
   //create events of the day to page
   useEffect(() => {
     if(todayEvent){
@@ -83,10 +77,6 @@ const DayEvent = ({ clickDate, setEvents, todayEvent, addMode, setAddMode }) => 
     }
   },[todayEvent,typeOpt])
 
-
-
-
-  
   return (
     <>
       <div className='events'>

@@ -21,7 +21,7 @@ const Navbar = ({ userName, setUserInfo, setUserName, setDate }) => {
   }
 
   const today = () => {
-    setDate(new Date())
+    setDate(new Date());
   };
 
   return (
