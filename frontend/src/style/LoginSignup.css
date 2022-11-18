@@ -1,18 +1,17 @@
 .login{
   margin: auto;
   padding: 1rem;
-  border: 1px solid black;
+  border: var(--borderone); 
   width: 20rem;
-  /* display: block; */
   display: flex;
   flex-direction:column;
   background: white;
-
 }
+
 .login-form{
   padding: 1rem;
   margin-bottom: 1rem;
-  border: 1px solid black;
+  border: var(--borderone); 
   display: flex;
   flex-direction:column;
 }
@@ -31,13 +30,6 @@
   padding: 0.375rem 0.75rem;
 }
 
-
-/* .signup-button{
-  height: 3rem;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-} */
 .my-button:hover{
   border-radius: 4px;
   background-color: #8abfe8;

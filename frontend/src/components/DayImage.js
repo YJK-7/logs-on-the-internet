@@ -63,11 +63,10 @@ const DayImage = ({ clickDate, posted }) => {
         }
       })
       const dbImg = await newImg.json();
-      console.log(dbImg);
       setImgFromDB(dbImg[0]);
       setPreView("");
     } catch (error) {
-      console.log("💖")
+      // console.log("💖")
       console.error(error);
     }
  

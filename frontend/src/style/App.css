@@ -2,23 +2,16 @@
   font-family: 'Kalam', cursive;
 } */
 /* no function just to keep track of colors */
-.p1{
-  background-color: #7dae9b;
-}
-.p2{
-  background-color: #8abfe8;
-}
-.p3{
-  background-color: #7b78b8;
-}
-.p4{
-  background-color: #cc889d;
-}
-.p5{
-  background-color: #f5c5a0;
-}
-.p6{
-  background-color: #5c7998;
+
+:root{
+  --sys-color-white: #FFFFFF;
+  --sys-color-black: #000000;
+
+  /* Theme Tokens */
+  --primary: var(--sys-color-white);
+  --secondary: var(--sys-color-black);
+
+  --borderone: 1px solid black; 
 }
 
 body{
@@ -33,10 +26,7 @@ input,button{
   font-family: 'Kalam', cursive;
 }
 
-
 /* Hide link in Month, */
 .hide a{ 
-  visibility: hidden;
   display: none;
-  text-decoration: none;
 }

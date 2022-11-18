@@ -1,15 +1,15 @@
 import '../style/Navbar.css';
 import { useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import MonthDayViewColor from './MonthDayViewColor';
 
 
-const Navbar = ({ userName, setUserInfo, setUserName, setDate }) => {
+const Navbar = ({ userName, setUserInfo, setUserName, setDate, eventOptions, setEventOptions, updateColor }) => {
   const name = userName? userName+"'s" : "" ;
   const login = useRef(null);
 
   const location = useLocation();
   // console.log('pathname', location.pathname);
-
 
   const logOut = () => {
     localStorage.clear();
@@ -31,9 +31,16 @@ const Navbar = ({ userName, setUserInfo, setUserName, setDate }) => {
       <div className='nav-buttons'>
       {
         location.pathname === "/month"?
+        <>
+        <MonthDayViewColor
+            eventOptions={eventOptions}
+            setEventOptions={setEventOptions}
+            updateColor={updateColor}
+          />
         <button onClick={today} className="logout">
           Today
         </button>
+        </>
         :""
       }
       {

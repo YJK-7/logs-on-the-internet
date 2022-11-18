@@ -4,7 +4,7 @@
  */
 exports.up = function(knex) {
   return knex.schema.table("event", (table) => {
-    table.dropColumn("test")
+    table.dropColumn("test");
   })
 };
 

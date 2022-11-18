@@ -8,6 +8,7 @@ require("dotenv").config({ path: "../.env.local" });
 app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 
 //limit allows bigger file inputs?
+app.use(express.urlencoded({extended: true}))
 app.use(express.json({limit:"50mb"}))
 const PORT = process.env.PORT || 8080;
 
@@ -30,12 +31,14 @@ app.get('/user-info', async (req, res) => {
 app.get('/user-event', async (req, res) => {
   try {
     const id = req.get("id");
+    
     const userEvent = await knex("event")
     .select("event.*","event_type.event_type")
     .leftJoin("event_type", "event.event_type_id", "event_type.id")
     .where({
-      user_id: id
+      "event.user_id": id
     })
+    // console.log(userEvent);
     res.status(200).send(userEvent);
   } catch (err) {
     res.status(404).send(err);
@@ -140,17 +143,67 @@ app.put("/journal", async (req, res) => {
   }
 })
 
-//DayEvents.js
-app.get("/event", async (req, res) => {
+//App.js
+app.get("/event-type", async (req, res) => {
   try {
-    const eventType = await knex("event_type")
-    .select()
-    res.status(200).send(eventType);
+    const userid = req.get("id");
+
+    const data = await knex("event_type")
+      .where({
+        user_id:userid
+      })
+      .select("id","event_type","hex_code")
+      .orderBy("id");;
+    
+    if(data.length <= 0){
+      const newEventTypes = await knex("event_type")
+      .insert(
+        [
+          {event_type:"study", hex_code:"#7dae9b", user_id:userid},
+          {event_type:"leisure", hex_code:"#8abfe8", user_id:userid},
+          {event_type:"work", hex_code:"#7b78b8", user_id:userid}
+        ],
+        ["id","event_type","hex_code"]
+      );
+      return res.status(200).send(newEventTypes);
+    };
+
+    return res.status(200).send(data);
   } catch (err) {
     res.status(404).send(err);
   }
 })
 
+app.put("/event-type", async (req, res) => {
+  try {
+    const userid = req.get("userid");
+    const evIdAndHex = req.body.data;
+    
+    const editEvent = evIdAndHex.forEach( async (el) => {
+      await knex("event_type")
+      .where({
+        user_id:userid,
+        id:el.eventTypeId
+      })
+      .update({
+        hex_code:el.hex
+      })
+    })
+    // console.log("🌟Done?")
+    const data = await knex("event_type")
+      .where({
+      user_id:userid
+      })
+      .select("id","event_type","hex_code")
+      .orderBy("id");
+      // console.log("💖",data)
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(404).send(err);
+  }
+})
+
+//EventEdit
 app.put("/event", async (req, res) => {
   try {
     const id = req.get("id");
@@ -172,7 +225,7 @@ app.put("/event", async (req, res) => {
     .select("event.*","event_type.event_type")
     .leftJoin("event_type", "event.event_type_id", "event_type.id")
     .where({
-      user_id: userid
+      "event.user_id": userid
     })
 
     // console.log(updatedEvents)
@@ -188,7 +241,7 @@ app.post("/event", async (req, res) => {
     const eventContent = req.get("eventContent");
     const userid = req.get("userid");
     const eventTypeId = req.get("eventTypeId");
-    // console.log(eventContent)
+    
 
     const newEvent = {
       date:clickDate,
@@ -200,11 +253,12 @@ app.post("/event", async (req, res) => {
     const event = await knex("event")
       .insert(newEvent)
       .returning(["id","date","event_content","user_id","event_type_id"]);
+      // console.log(event)
     const updatedEvents = await knex("event")
       .select("event.*","event_type.event_type")
       .leftJoin("event_type", "event.event_type_id", "event_type.id")
       .where({
-        user_id: userid
+        "event.user_id": userid
       })
     const both = {
       "event":event,
@@ -212,8 +266,7 @@ app.post("/event", async (req, res) => {
     }
     // console.log(event) ->  only return new thing
 
-    // console.log("data",data)
-    res.status(200).send(both);
+    res.status(200).send(updatedEvents);
   } catch (err) {
     res.status(404).send(err);
   }
@@ -231,7 +284,7 @@ app.delete("/event", async (req, res) => {
     .select("event.*","event_type.event_type")
     .leftJoin("event_type", "event.event_type_id", "event_type.id")
     .where({
-      user_id: userid
+      "event.user_id": userid
     })
     res.status(200).send(updatedEvents);
 
@@ -344,7 +397,7 @@ app.post("/api/img-up", async (req, res) => {
 
 //order matters?
 app.get("/*", (req, res) => {
-  console.log("💜")
+  // console.log("💜")
   res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"));
 });
 

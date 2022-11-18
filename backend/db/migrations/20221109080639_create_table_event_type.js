@@ -13,6 +13,8 @@ exports.up = function(knex) {
       table.string("event_type", 32)
         .notNullable()
         .unique();
+      table.string("hex_code",7)
+        .notNullable();
     })
 };
 

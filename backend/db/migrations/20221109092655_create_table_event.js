@@ -17,7 +17,7 @@
       table.integer("user_id")
         .notNullable()
         .references("id")
-        .inTable("user")
+        .inTable("user");
       table.integer("event_type_id")
         .notNullable()
         .references("id")

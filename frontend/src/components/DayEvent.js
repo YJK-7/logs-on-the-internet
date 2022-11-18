@@ -1,23 +1,17 @@
 import { useEffect, useState } from "react";
-import {jsx as _jsx} from 'react/jsx-runtime'; 
 import EventEdit from "./EventEditForm";
 
 import "../style/DayEvent.css"
 
-const DayEvent = ({ clickDate, setEvents, todayEvent, addMode, setAddMode }) => {
+const DayEvent = ({ clickDate, events, setEvents, todayEvent, addMode, setAddMode, eventOptions, updateColor }) => {
   const [editView, setEditView] = useState(undefined);
   const [today, setToday] = useState(undefined);
   const [typeOpt, setTypeOpt] = useState(undefined);
 
-  // load type options
+  // create type options
   useEffect(()=>{
-    const loadEventType = async () => {
-      const fetchType = await fetch("/event", {
-        method:"GET",
-      })
-      const eventTypes = await fetchType.json();
-      // console.log(eventTypes)
-      setTypeOpt(eventTypes);
+    if(eventOptions){
+      setTypeOpt(eventOptions);
       setTypeOpt((typeArr)=> {
         setTypeOpt(typeArr.map((typeEl) => {
           return (
@@ -26,14 +20,11 @@ const DayEvent = ({ clickDate, setEvents, todayEvent, addMode, setAddMode }) => 
         }))
       })
     }
-    loadEventType()
-    .catch(console.error);
-  },[])
+  },[eventOptions])
   // console.log("💜",typeOpt)
 
   //if addmode true open edit field
   useEffect(()=>{
-    // console.log("🌠",addMode)
     if(addMode){
       setEditView(<EventEdit 
         clickDate={clickDate}
@@ -48,15 +39,20 @@ const DayEvent = ({ clickDate, setEvents, todayEvent, addMode, setAddMode }) => 
     }
   },[addMode])
   
-    
+  
   //create events of the day to page
   useEffect(() => {
-    if(todayEvent){
+    if(todayEvent && updateColor){
+      console.log("HERE",todayEvent);
       const loadEvents = todayEvent.map((eventEl) => {
+        const loadColor = updateColor.find((el) => {
+          return eventEl.event_type_id === el.id
+        })
         return (
           <span 
             className={eventEl["event_type"]} 
             key={eventEl.id}
+            style={{background:loadColor.hex_code}}
             onClick={(e)=>{
               if(typeOpt){
                 setEditView(<EventEdit 
@@ -74,8 +70,10 @@ const DayEvent = ({ clickDate, setEvents, todayEvent, addMode, setAddMode }) => 
           </span>)
       })
       setToday(loadEvents)
+    } else {
+      return <div></div>
     }
-  },[todayEvent,typeOpt])
+  },[todayEvent, typeOpt])
 
   return (
     <>

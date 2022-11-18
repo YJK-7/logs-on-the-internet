@@ -13,7 +13,7 @@ exports.up = function(knex) {
       table.integer("user_id")
         .notNullable()
         .references("id")
-        .inTable("user")
+        .inTable("user");
     })
 };
 

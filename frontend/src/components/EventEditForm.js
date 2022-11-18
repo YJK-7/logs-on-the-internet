@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import {jsx as _jsx} from 'react/jsx-runtime'; 
+import { useState } from 'react';
 import "../style/EventEdit.css"
 
 const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode, setAddMode}) => {
@@ -8,7 +7,6 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
     eventContent:"",
     eventTypeId:""
   });
-  console.log(eventEl, typeOpt, addMode)
  
   const event_id = eventEl ? eventEl["id"]: "";
   const event_content = eventEl ? eventEl["event_content"]: "";
@@ -18,7 +16,6 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
     const newCont = cont["eventContent"];
     const newTypeId = cont["eventTypeId"]? cont["eventTypeId"]: "1";
     if(newCont && newTypeId) {
-      // console.log(newTypeId)
       const postEvent = await fetch("/event", {
         method:"POST",
         headers:{
@@ -30,7 +27,7 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
       })
       const postDone = await postEvent.json();
       // console.log(postDone returns new event and updated events)
-      setEvents(postDone["updateAll"]);
+      setEvents(postDone);
       setEditView(undefined); 
       setAddMode(false);
     } else {
@@ -42,7 +39,6 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
   const editEvent = async (cont) => {
     const newCont = (cont["eventContent"] !== "")? cont["eventContent"] : event_content;
     const newTypeId = (cont["eventTypeId"] !== "")? cont["eventTypeId"] : event_type_id;
-    // console.log(newCont,newTypeId,event_id)
     const putEvent = await fetch("/event", {
       method:"PUT",
       headers:{
@@ -53,13 +49,13 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
       }
     })
     const putDone = await putEvent.json();
-    //pudone returns all events in db relative to user
+    //putDone returns all events in db relative to user
     setEvents(putDone);
     setEditView(undefined); 
     setAddMode(false);
   }
 
-    const deleteEvent = async () => {
+  const deleteEvent = async () => {
     const deleteE = await fetch("/event", {
       method:"DELETE",
       headers:{

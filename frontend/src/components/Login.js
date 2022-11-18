@@ -7,10 +7,10 @@ const Login = ({ setUserName, setUserInfo }) => {
   const [email, setEmail] = useState(undefined);
   const [password, setPassword] = useState(undefined);
   const [view, setView] = useState("login")
-  const linkRef = useRef(null);
+  const toMonthView = useRef(null);
 
   const handleSubmit = (event) => {
-    event.preventDefault();//?
+    event.preventDefault();
     if(email && password) {
       return fetch("/login", {
         headers:{
@@ -25,7 +25,7 @@ const Login = ({ setUserName, setUserInfo }) => {
           setUserInfo(userArr[0]); 
           setUserName(userArr[0]["first_name"]);
           localStorage.setItem('userid', userArr[0].id);
-          linkRef.current.click();
+          toMonthView.current.click();
         } else {
           alert(`User does not exists! Please sign in.`)
         }
@@ -34,6 +34,7 @@ const Login = ({ setUserName, setUserInfo }) => {
       return (!email ? alert(`Please enter your email`) : alert(`Please enter your password`));
     }
   }
+
   const inputs = ["email","password"];
 
   const inputFields = (field) => {
@@ -41,27 +42,20 @@ const Login = ({ setUserName, setUserInfo }) => {
     const func = (e) => {
       return (field === "email" ? setEmail(e): setPassword(e))
     }    
-    // const func = (val) => {
-    //   return this[`set${toCap}`](val);
-    // }
 
-    // console.log(this["setEmail"]("ji"))
-    // wor.replace(wor[0], wor[0].toUpperCase())
     return (
-      <>
-        <div className="input-box">
-          <label className="lable">
-            {`${toCap}:`}
-          </label>
-          <input
-            className='input-field' 
-            type={field}
-            name={field}
-            placeholder={toCap} 
-            onChange={(e) => func(e.target.value)}
-          />
-        </div>
-      </>
+      <div className="input-box" key={toCap+"div"}>
+        <label className="lable">
+          {`${toCap}:`}
+        </label>
+        <input
+          className='input-field' 
+          type={field}
+          name={field}
+          placeholder={toCap}
+          onChange={(e) => func(e.target.value)}
+        />
+      </div>
     )
   }
 
@@ -87,7 +81,7 @@ const Login = ({ setUserName, setUserInfo }) => {
     }    
     </div>
     <div className='hide'>
-        <Link to={"/month"} ref={linkRef}>Hide</Link>
+        <Link to={"/month"} ref={toMonthView}>Hide</Link>
     </div>
     </>
   )

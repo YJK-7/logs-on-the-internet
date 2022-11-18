@@ -6,7 +6,7 @@ exports.up = function(knex) {
   return knex.schema.table("journal", (table) => {
     table.integer("image_id")
         .references("id")
-        .inTable("image")
+        .inTable("image");
   })
 };
 
@@ -16,6 +16,6 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema.table("journal", (table) => {
-    table.dropColumn("image_id")
+    table.dropColumn("image_id");
   })
 };

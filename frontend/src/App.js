@@ -11,13 +11,15 @@ function App() {
   const [userName, setUserName] = useState(undefined);
   const [date, setDate] = useState(new Date());
   const [events, setEvents] = useState([]);
-
+  const [eventOptions, setEventOptions] = useState([]);
+  const [updateColor, setUpdateColor] = useState([]);
+  
+  const localStorageUser = localStorage.getItem("userid");
   const headerObj = {
-    "id":localStorage.getItem("userid")
+    "id":localStorageUser
   };
 
-  const localStorageUser = localStorage.getItem("userid");
-  //check for userid 
+  //check for userid and send back user info
   useEffect(() => {
     if (localStorageUser) {
       fetch("/user-info",{
@@ -43,7 +45,7 @@ function App() {
         })
         const eventsArr = await eventsData.json();
         setEvents(eventsArr);
-        //setevents regardless of if events is empty or not?
+        //setevents regardless of if events is empty
       }
     }
     fetchEvents()
@@ -51,9 +53,39 @@ function App() {
 
   },[userInfo])
 
-  
-  // console.log("userName",userName, Boolean (userName))
-  // console.log("userInfo",userInfo, Boolean (userInfo))
+  //initial load event_types
+  useEffect(()=>{
+    const loadEventType = async () => {
+      if(localStorageUser) {
+        const fetchType = await fetch("/event-type", {
+          method:"GET",
+          headers:headerObj
+        })
+        const eventTypes = await fetchType.json();
+        setEventOptions(eventTypes);
+      }
+    }
+    loadEventType()
+    .catch(console.error);
+  },[])
+
+  // get update event colors
+  useEffect(()=> {
+    if(eventOptions.length !== 0){
+      const loadEventType = async () => {
+        if(localStorageUser) {
+          const fetchType = await fetch("/event-type", {
+            method:"GET",
+            headers:headerObj
+          })
+          const eventTypes = await fetchType.json();
+          setUpdateColor(eventTypes);
+        }
+      }
+      loadEventType()
+      .catch(console.error);
+    }
+  }, [eventOptions])
 
   return (
     <div className="App">
@@ -63,6 +95,9 @@ function App() {
           setUserInfo={setUserInfo} 
           setUserName={setUserName}
           setDate={setDate}
+          eventOptions={eventOptions}
+          setEventOptions={setEventOptions}
+          updateColor={updateColor}
         />
 
         <Routes>
@@ -72,11 +107,10 @@ function App() {
           />
           <Route path="/month" element={
             <MonthView
-              userInfo={userInfo} 
+              events={events}
               date={date}
               setDate={setDate}
-              events={events}
-              setEvents={setEvents}
+              updateColor={updateColor}
             />
           }/>
 
@@ -84,6 +118,8 @@ function App() {
             <DayView
               events={events} 
               setEvents={setEvents}
+              eventOptions={eventOptions}
+              updateColor={updateColor}
             />
           }/>
 

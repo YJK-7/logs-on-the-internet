@@ -1,26 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import "../style/DayView.css"
 import DayEvent from './DayEvent';
 import DayImage from './DayImage';
-// import logo from "../logo.svg"
-// import DayAddEvent from './DayAddEvent';
 
-const DayView = ({ events, setEvents }) => {
+const DayView = ({ events, setEvents, eventOptions, updateColor }) => {
   const [todayEvent, setTodayEvent] = useState([]);
   const [newContent, setNewContent] = useState(undefined);
   const [posted, setPosted] = useState(undefined);
   const [disable, setDisable] = useState(false);
   
   const [addMode, setAddMode] = useState(false);
-  const { day } = useParams();
 
   const textLink = useRef(null);
-  const clickDate = new Date(sessionStorage.getItem("clickDay")).toDateString();
-  const monthName = new Date(sessionStorage.getItem("clickDay"))
+  const sessionDate = sessionStorage.getItem("clickDay");
+
+  const clickDate = new Date(sessionDate).toDateString();
+  const monthName = new Date(sessionDate)
   .toLocaleString('default', { month: 'long' });
 
-  const fullDayTitle = new Date(sessionStorage.getItem("clickDay"))
+  const fullDayTitle = new Date(sessionDate)
   .toLocaleString("default",{
     weekday:"long",
     day:"2-digit", 
@@ -31,13 +30,15 @@ const DayView = ({ events, setEvents }) => {
   //get day relative user event 
   // by default events === []
   useEffect(()=> {
-    if(events.length !== 0){
-      setTodayEvent([]);// stopped duplicate loads, but why?
+    if(events && events.length !== 0){
+      setTodayEvent([]);// stopped duplicate loads
       events.forEach((eventEl) => {
         if(clickDate === eventEl.date){
           setTodayEvent(oldArray => [...oldArray, eventEl]);
         }
       })
+    } else {
+      setTodayEvent([])
     }
   }, [events])
 
@@ -80,7 +81,6 @@ const DayView = ({ events, setEvents }) => {
   // console.log("🦋",content,posted)
   const journal = async (e) => {
     let journalContent;
-    // console.log("🐱",posted)
     const headerObj = {
       "postDate":clickDate,
       "content":newContent || posted,
@@ -118,10 +118,13 @@ const DayView = ({ events, setEvents }) => {
     </div>
       <DayEvent 
         clickDate={clickDate} 
+        events={events}
         setEvents={setEvents} 
         todayEvent={todayEvent} 
         addMode={addMode}
         setAddMode={setAddMode}
+        eventOptions={eventOptions}
+        updateColor={updateColor}
       />
 
     <div className='day-wrap'>
