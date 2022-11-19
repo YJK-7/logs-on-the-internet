@@ -82,6 +82,10 @@ function App() {
     }
   }, [eventOptions])
 
+  window.onbeforeunload = function() {
+    localStorage.clear();
+ }
+
   return (
     <div className="App">
       <BrowserRouter>
