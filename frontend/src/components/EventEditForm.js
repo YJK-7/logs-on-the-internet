@@ -14,7 +14,7 @@ const EventEdit = ({clickDate, eventEl, typeOpt, setEditView, setEvents, addMode
 
   const addEvent = async (cont) => {
     const newCont = cont["eventContent"];
-    const newTypeId = cont["eventTypeId"]? cont["eventTypeId"]: "1";
+    const newTypeId = cont["eventTypeId"]? cont["eventTypeId"]: typeOpt[0].props.value;
     if(newCont && newTypeId) {
       const postEvent = await fetch("/event", {
         method:"POST",

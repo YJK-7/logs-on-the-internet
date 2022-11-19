@@ -154,7 +154,7 @@ app.get("/event-type", async (req, res) => {
       })
       .select("id","event_type","hex_code")
       .orderBy("id");;
-    
+    ;
     if(data.length <= 0){
       const newEventTypes = await knex("event_type")
       .insert(
@@ -167,7 +167,6 @@ app.get("/event-type", async (req, res) => {
       );
       return res.status(200).send(newEventTypes);
     };
-
     return res.status(200).send(data);
   } catch (err) {
     res.status(404).send(err);
@@ -178,25 +177,25 @@ app.put("/event-type", async (req, res) => {
   try {
     const userid = req.get("userid");
     const evIdAndHex = req.body.data;
-    
-    const editEvent = evIdAndHex.forEach( async (el) => {
+    // console.log(evIdAndHex);
+    for (const evHex of evIdAndHex) {
       await knex("event_type")
       .where({
         user_id:userid,
-        id:el.eventTypeId
+        id:evHex.eventTypeId
       })
       .update({
-        hex_code:el.hex
-      })
-    })
-    // console.log("🌟Done?")
+        hex_code:evHex.hex
+      },["id"]);
+
+    }
     const data = await knex("event_type")
       .where({
       user_id:userid
       })
       .select("id","event_type","hex_code")
       .orderBy("id");
-      // console.log("💖",data)
+      
     res.status(200).send(data);
   } catch (err) {
     res.status(404).send(err);

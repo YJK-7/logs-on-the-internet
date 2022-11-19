@@ -65,6 +65,7 @@ const MonthDayViewColor = ({ eventOptions, setEventOptions, updateColor }) => {
       
     })
     const newColors = await postColor.json();
+    // console.log(newColors);
     setEventOptions(newColors);
     setColorPicker(!colorPicker);
     setCollapse(!collapse);

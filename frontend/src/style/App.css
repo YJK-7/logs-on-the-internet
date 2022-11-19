@@ -1,8 +1,3 @@
-/* .App {
-  font-family: 'Kalam', cursive;
-} */
-/* no function just to keep track of colors */
-
 :root{
   --sys-color-white: #FFFFFF;
   --sys-color-black: #000000;
@@ -12,6 +7,10 @@
   --secondary: var(--sys-color-black);
 
   --borderone: 1px solid black; 
+
+  --peach: #f5c5a0;
+  --pistachio: #7dae9b;
+
 }
 
 body{

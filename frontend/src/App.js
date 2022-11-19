@@ -18,6 +18,7 @@ function App() {
   const headerObj = {
     "id":localStorageUser
   };
+  
 
   //check for userid and send back user info
   useEffect(() => {
@@ -36,8 +37,11 @@ function App() {
     }
   },[]);
 
+  // console.log(headerObj,userInfo);
+
   //fetch user related events
   useEffect(() => {
+    // console.log("🌟");
     const fetchEvents = async () => {
       if(localStorageUser) {
         const eventsData = await fetch ("/user-event", {
@@ -53,6 +57,8 @@ function App() {
 
   },[userInfo])
 
+  
+
   //initial load event_types
   useEffect(()=>{
     const loadEventType = async () => {
@@ -67,23 +73,12 @@ function App() {
     }
     loadEventType()
     .catch(console.error);
-  },[])
+  },[userInfo])
 
   // get update event colors
   useEffect(()=> {
     if(eventOptions.length !== 0){
-      const loadEventType = async () => {
-        if(localStorageUser) {
-          const fetchType = await fetch("/event-type", {
-            method:"GET",
-            headers:headerObj
-          })
-          const eventTypes = await fetchType.json();
-          setUpdateColor(eventTypes);
-        }
-      }
-      loadEventType()
-      .catch(console.error);
+      setUpdateColor(eventOptions)
     }
   }, [eventOptions])
 
@@ -95,6 +90,7 @@ function App() {
           setUserInfo={setUserInfo} 
           setUserName={setUserName}
           setDate={setDate}
+          setEvents={setEvents}
           eventOptions={eventOptions}
           setEventOptions={setEventOptions}
           updateColor={updateColor}

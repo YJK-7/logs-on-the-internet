@@ -28,11 +28,11 @@
 
 .my-button.day.ed{
   flex: 1;
-  border: 2px solid #7dae9b;
+  border: 2px solid var(--pistachio);
 }
 .my-button.day.ed:hover{
   flex: 1;
-  background-color: #7dae9b;
+  background-color: var(--pistachio);
   color: white;
 }
 

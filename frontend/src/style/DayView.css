@@ -38,12 +38,12 @@
 
 .my-button.sub-ed.add{
   font-size: 1em;
-  border-color: #f5c5a0;
+  border-color: var(--peach);
   width: 20%;
   margin-bottom: 1rem;
 }
 .my-button.sub-ed.add:hover{
-  background-color:#f5c5a0;
+  background-color:var(--peach);
   color:#000000;
 }
 

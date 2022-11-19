@@ -43,11 +43,21 @@ const DayEvent = ({ clickDate, events, setEvents, todayEvent, addMode, setAddMod
   //create events of the day to page
   useEffect(() => {
     if(todayEvent && updateColor){
-      console.log("HERE",todayEvent);
+      // console.log("HERE",todayEvent,updateColor);
       const loadEvents = todayEvent.map((eventEl) => {
-        const loadColor = updateColor.find((el) => {
-          return eventEl.event_type_id === el.id
-        })
+        // console.log("HERE",eventEl);
+        let loadColor;
+        if(updateColor.length !== 0){
+          loadColor = updateColor.find((el) => {
+            // console.log("HERE",eventEl.event_type_id,el.id);
+            // console.log("💙",el);
+            return eventEl.event_type_id === el.id
+          })
+        } else if (updateColor.length === 0){
+          return
+        }
+        
+        // console.log(loadColor);
         return (
           <span 
             className={eventEl["event_type"]} 

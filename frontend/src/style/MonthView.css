@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Kalam&display=swap');
 #root{
-  width: 45rem;
   margin: auto; 
+  width: 45rem;
 }
 
 /*top nav+ day tiles*/
 .react-calendar { 
-  max-width: 100%; 
   line-height: 1.125em;
+  max-width: 100%; 
 }
 .react-calendar--doubleView {
   width: 700px;
@@ -17,8 +17,8 @@
   margin: -0.5em;
 }
 .react-calendar--doubleView .react-calendar__viewContainer > * {
-  width: 50%;
   margin: 0.5em;
+  width: 50%;
 }
 .react-calendar,
 .react-calendar *,
@@ -48,7 +48,7 @@
 /* Month Title */
 .react-calendar__navigation button:nth-child(3) {
   border-radius: 40px;
-  background: #f5c5a0;
+  background: var(--peach);
   width: 1rem;
   margin: 0 10px;
 }
@@ -72,12 +72,12 @@
 }
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
-  background-color: #f5c5a0;
+  background-color: var(--peach);
   transition-duration: 0.4s;
 }
 .react-calendar__navigation button:nth-child(3):enabled:hover,
 .react-calendar__navigation button:nth-child(3):enabled:focus {
-  background-color: #7dae9b;
+  background-color: var(--pistachio);
 }
 .react-calendar__year-view__months{
   border: var(--borderone); 
@@ -95,7 +95,7 @@
   font-weight: bold;
   font-size: 0.75em;
   text-decoration: none;
-  background: #f5c5a0;
+  background: var(--peach);
   border-top: var(--borderone); 
   border-right: var(--borderone); 
   border-left: var(--borderone); 

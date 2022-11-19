@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import MonthDayViewColor from './MonthDayViewColor';
 
 
-const Navbar = ({ userName, setUserInfo, setUserName, setDate, eventOptions, setEventOptions, updateColor }) => {
+const Navbar = ({ userName, setUserInfo, setUserName, setDate, setEvents, eventOptions, setEventOptions, updateColor }) => {
   const name = userName? userName+"'s" : "" ;
   const login = useRef(null);
 
@@ -16,6 +16,7 @@ const Navbar = ({ userName, setUserInfo, setUserName, setDate, eventOptions, set
     //do I have to clear session storage
     setUserInfo(undefined);
     setUserName(undefined);
+    setEvents([]);
 
     login.current.click();
   }

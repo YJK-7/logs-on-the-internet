@@ -15,7 +15,6 @@ const MonthView = ({ events, date, setDate, updateColor }) => {
     sessionStorage.setItem("clickDay",selectedDate); //prevent date reset on refresh
     dayRef.current.click();
   }
-  // console.log("🌟");
   
   // create tile content 
   const tileContent = (date) => {
@@ -28,19 +27,25 @@ const MonthView = ({ events, date, setDate, updateColor }) => {
     // }
     // activeStartDate & date are date objects
     
-    
     const dayOfMonth = date.date;
     let dayContent = [];
 
-    if(events.length !== 0 && updateColor.length !== 0) {
+    if(events && updateColor) {
+      // console.log("🌟",events,updateColor);
       events.forEach((event) => {
         if(dayOfMonth.toDateString() === event.date) {
-          const loadColor = updateColor.find((el) => {
-            return event.event_type_id === el.id
-          })
-          // console.log("💖",loadColor)
-          //Do I need event_type_id?
-          // console.log(dayOfMonth.getDate())
+          let loadColor;
+          if(updateColor.length !== 0){
+            // console.log(updateColor);
+            loadColor = updateColor.find((el) => {
+              // console.log("💙",el);
+              return event.event_type_id === el.id
+            })
+          } else if (updateColor.length === 0){
+            return
+          }
+          // console.log(loadColor);
+          //loadColor is object
           dayContent.push(
             <span 
               className={event["event_type"]} 
@@ -68,9 +73,8 @@ const MonthView = ({ events, date, setDate, updateColor }) => {
       minDetail={"decade"}
     />
     )
-  },[updateColor])
+  },[updateColor,events,date])
   
-
   return (
     <>
       {cal}
