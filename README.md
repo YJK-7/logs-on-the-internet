@@ -68,7 +68,7 @@ Start the react app by running the following in ```./frontend```
 npm start
 ```  
 # How to set up knexfile
-```knexfile.js```file can be found in ```./backend/db
+```knexfile.js```file can be found in ```./backend/db```
 
 You will need to set up a ```.env.local``` file in the root folder which contains the following variables:  
 ```
