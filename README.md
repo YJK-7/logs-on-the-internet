@@ -19,7 +19,7 @@ This was created during my time as a student at Code Chrysalis
 # Introduction  
 [Internet Logs](https://internet-logs.onrender.com), allows users to write journal entrys for inidivual days, upload images with the journal entry, and create events for the day. On login, they can see all of their events for the month in a monthly calendar view. Users can navigate to day views by clicking the dates on the calendar to view their journal and images, along side the day's events. 
 <br/>
-[Internet Logs](https://internet-logs.onrender.com) uses javascript with React, [React-Calendar](https://www.npmjs.com/package/react-calendar), and [React-Color](https://www.npmjs.com/package/react-color) to render UI/UX components. The backend uses a node.js server and a postgresql database. Images are hosted on [Cloudinary](https://cloudinary.com/).
+[Internet Logs](https://internet-logs.onrender.com) uses javascript with React, [React-Calendar](https://www.npmjs.com/package/react-calendar), and [React-Color](https://www.npmjs.com/package/react-color) to render UI/UX components. The backend uses an Express server and a postgresql database. Images are hosted on [Cloudinary](https://cloudinary.com/).
 
 # Features
 
