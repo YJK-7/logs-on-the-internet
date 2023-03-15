@@ -56,8 +56,6 @@ function App() {
 
   },[userInfo])
 
-  
-
   //initial load event_types
   useEffect(()=>{
     const loadEventType = async () => {
