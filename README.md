@@ -17,7 +17,7 @@ This was created during my time as a student at Code Chrysalis
     - [How to set up knexfile](#how-to-set-up-knexfile)
     
 # Introduction  
-[Internet Logs](https://internet-logs.onrender.com), allows users to write journal entrys for inidivual days, upload images with the journal entry, and create events for the day. On login, they can see all of their events for the month in a monthly calendar view. Users can navigate to day views by clicking the dates on the calendar to view their journal and images, along side the day's events. 
+[Internet Logs](https://internet-logs.onrender.com), allows users to write a journal entry for inidivual days, upload images with the journal entry, and create events for the day. On login, they can see all of their events for the month in a monthly calendar view. Users can navigate to day views by clicking the dates on the calendar to view their journal and images, along side the day's events. 
 <br/>
 [Internet Logs](https://internet-logs.onrender.com) uses JavaScript with React, [React-Calendar](https://www.npmjs.com/package/react-calendar), and [React-Color](https://www.npmjs.com/package/react-color) to render UI/UX components. The backend uses Express.js, Node.js, and Knex.js to create a REST API server. The database is built with PostgreSQL. Images are hosted on [Cloudinary](https://cloudinary.com/).
 
