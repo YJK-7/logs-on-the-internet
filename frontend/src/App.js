@@ -19,7 +19,6 @@ function App() {
     "id":localStorageUser
   };
   
-
   //check for userid and send back user info
   useEffect(() => {
     if (localStorageUser) {
