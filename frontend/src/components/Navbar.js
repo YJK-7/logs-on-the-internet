@@ -18,7 +18,7 @@ const Navbar = ({ userName, setUserInfo, setUserName, setDate, setEvents, eventO
     setUserName(undefined);
     setEvents([]);
 
-    login.current.click();
+    login.current.click();//back to login page
   }
 
   const today = () => {
